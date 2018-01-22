@@ -1,0 +1,371 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VIP Grid</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.standalone.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="header">
+    <div class="logo">
+        <img src="images/vodafone-logo.svg" alt="vodafone logo">
+        <h1>VIP Portál</h1>
+    </div>
+    <div class="celebration">
+        <span>Mai névnap</span>
+        <p>Béla</p>
+    </div>
+    <form class="form-inline">
+        <input type="text" class="form-control" id="quickSearch" placeholder="Gyorskeresés">
+        <button type="submit" class="btn btn-primary">
+            <img src="images/search.svg" alt="Keresés"/>
+        </button>
+    </form>
+</header>
+<main id="content" class="clearfix">
+    <div class="alert alert-danger" role="alert">
+        <ul class="list-unstyled mb-0">
+            <li>asd</li>
+            <li>asd</li>
+            <li>asd</li>
+        </ul>
+    </div>
+    <div class="content-container pt-2">
+        <div class="top-links pb-4">
+            <h2>Saját top linkek</h2>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+            <a href="#" class="btn btn-lg btn-secondary">Üzletkereső</a>
+        </div>
+        <div class="helpline-form pb-4">
+            <h2>HelpLine top információk</h2>
+            <form>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="searchKeyword">Keresőszó</label>
+                            <input type="text" class="form-control" id="searchKeyword">
+                        </div>
+                        <div class="form-group">
+                            <label for="number">Sorszám</label>
+                            <input type="text" class="form-control" id="number">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="topics">Témák</label>
+                            <select class="form-control" id="topics">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="startDate">Kezdő dátum</label>
+                            <input type="text" class="form-control datepicker" id="startDate">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="endDate">Záró dátum</label>
+                            <input type="text" class="form-control datepicker" id="endDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-lg btn-primary">Küldés</button>
+                </div>
+            </form>
+        </div>
+        <div class="selections">
+            <h2>Linkek böngészése</h2>
+            <ul class="nav nav-tabs" id="preselectTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="prepaid-tab" data-toggle="tab" href="#prepaid" role="tab">Prepaid</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="postpaid-tab" data-toggle="tab" href="#postpaid" role="tab">Postpaid</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="soho-tab" data-toggle="tab" href="#soho" role="tab">SOHO</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="corporate-tab" data-toggle="tab" href="#corporate" role="tab">Corporate</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="preselectTabContent">
+
+                <!-- Prepaid Mainmenu -->
+                <div class="tab-pane fade show active" id="prepaid" role="tabpanel">
+
+                    <ul class="nav nav-tabs secondary" id="prepaidTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="prepaid-service-tab" data-toggle="tab" href="#prepaidService" role="tab">Szolgáltatás</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="prepaid-billing-tab" data-toggle="tab" href="#prepaidBilling" role="tab">Számlázás</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="prepaid-flows-tab" data-toggle="tab" href="#prepaidFlows" role="tab">Folyamatok</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="prepaid-contract-tab" data-toggle="tab" href="#prepaidContract" role="tab">Szerződés</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="prepaid-roaming-tab" data-toggle="tab" href="#prepaidRoaming" role="tab">Külföld</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="prepaid-complaint-tab" data-toggle="tab" href="#prepaidComplaint" role="tab">Panasz</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content secondary" id="prepaidTabContent">
+                        <div class="tab-pane fade show active" id="prepaidService" role="tabpanel">
+                            <ul class="link-list card-columns">
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="prepaidBilling" role="tabpanel">
+                            <ul class="link-list card-columns">
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+                                <li><a href="#">AsdAsd</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="prepaidFlows" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="prepaidContract" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="prepaidRoaming" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="prepaidComplaint" role="tabpanel"></div>
+                    </div>
+                </div>
+
+                <!-- Postpaid Mainmenu -->
+                <div class="tab-pane fade" id="postpaid" role="tabpanel">
+                    <ul class="nav nav-tabs secondary" id="postpaidTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="postpaid-service-tab" data-toggle="tab" href="#postpaidService" role="tab">Szolgáltatás</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="postpaid-billing-tab" data-toggle="tab" href="#postpaidBilling" role="tab">Számlázás</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="postpaid-flows-tab" data-toggle="tab" href="#postpaidFlows" role="tab">Folyamatok</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="postpaid-contract-tab" data-toggle="tab" href="#postpaidContract" role="tab">Szerződés</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="postpaid-roaming-tab" data-toggle="tab" href="#postpaidRoaming" role="tab">Külföld</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="postpaid-complaint-tab" data-toggle="tab" href="#postpaidComplaint" role="tab">Panasz</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content secondary" id="postpaidTabContent">
+                        <div class="tab-pane fade show active" id="postpaidService" role="tabpanel">
+                            <ul class="link-list card-columns">
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="postpaidBilling" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="postpaidFlows" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="postpaidContract" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="postpaidRoaming" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="postpaidComplaint" role="tabpanel"></div>
+                    </div>
+                </div>
+                <!-- Soho Mainmenu-->
+                <div class="tab-pane fade" id="soho" role="tabpanel">
+                    <ul class="nav nav-tabs secondary" id="sohoTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="soho-service-tab" data-toggle="tab" href="#sohoService" role="tab">Szolgáltatás</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="soho-billing-tab" data-toggle="tab" href="#sohoBilling" role="tab">Számlázás</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="soho-flows-tab" data-toggle="tab" href="#sohoFlows" role="tab">Folyamatok</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="soho-contract-tab" data-toggle="tab" href="#sohoContract" role="tab">Szerződés</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="soho-roaming-tab" data-toggle="tab" href="#sohoRoaming" role="tab">Külföld</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="soho-complaint-tab" data-toggle="tab" href="#sohoComplaint" role="tab">Panasz</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content secondary" id="sohoTabContent">
+                        <div class="tab-pane fade show active" id="sohoService" role="tabpanel">
+                            <ul class="link-list card-columns">
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="sohoBilling" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="sohoFlows" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="sohoContract" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="sohoRoaming" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="sohoComplaint" role="tabpanel"></div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="corporate" role="tabpanel">
+                    <ul class="nav nav-tabs secondary" id="corporateTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="corporate-service-tab" data-toggle="tab" href="#corporateService" role="tab">Szolgáltatás</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="corporate-billing-tab" data-toggle="tab" href="#corporateBilling" role="tab">Számlázás</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="corporate-flows-tab" data-toggle="tab" href="#corporateFlows" role="tab">Folyamatok</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="corporate-contract-tab" data-toggle="tab" href="#corporateContract" role="tab">Szerződés</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="corporate-roaming-tab" data-toggle="tab" href="#corporateRoaming" role="tab">Külföld</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="corporate-complaint-tab" data-toggle="tab" href="#corporateComplaint" role="tab">Panasz</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content secondary" id="corporateTabContent">
+                        <div class="tab-pane fade show active" id="corporateService" role="tabpanel">
+                            <ul class="link-list card-columns">
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                                <li><a href="#">Link</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="corporateBilling" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="corporateFlows" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="corporateContract" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="corporateRoaming" role="tabpanel"></div>
+                        <div class="tab-pane fade" id="corporateComplaint" role="tabpanel"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-container pt-2">
+        <div class="portal-links">
+            <h2>Portálok</h2>
+            <a href="#" class="portal-link"><img src="images/portal_1.png"></a>
+            <a href="#" class="portal-link"><img src="images/portal_2.png"></a>
+            <a href="#" class="portal-link"><img src="images/portal_3.png"></a>
+            <a href="#" class="portal-link"><img src="images/portal_4.png"></a>
+            <a href="#" class="portal-link"><img src="images/portal_5.png"></a>
+            <a href="#" class="portal-link"><img src="images/portal_6.png"></a>
+        </div>
+    </div>
+</main>
+
+<footer id="footer" class="footer">
+    <nav class="nav">
+        <a class="nav-link" href="#">Visszajelzés</a>
+        <a class="nav-link" href="#">Kapcsolat</a>
+    </nav>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript">
+    $('.datepicker').datepicker();
+</script>
+</body>
+</html>

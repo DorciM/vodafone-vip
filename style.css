@@ -1,0 +1,327 @@
+@font-face
+{
+    font-family: 'VodafoneRegular';
+    src: url('fonts/vodafone-regular.eot');
+    src: url('fonts/vodafone-regular.eot?#iefix') format('embedded-opentype'),
+    url('fonts/vodafone-regular.woff') format('woff'),
+    url('fonts/vodafone-regular.ttf') format('truetype'),
+    url('fonts/vodafone-regular.svg#svgFontName') format('svg');
+}
+
+@font-face
+{
+    font-family: 'VodafoneLight';
+    src: url('fonts/vodafone-light.eot');
+    src: url('fonts/vodafone-light.eot?#iefix') format('embedded-opentype'),
+    url('fonts/vodafone-light.woff') format('woff'),
+    url('fonts/vodafone-light.ttf') format('truetype'),
+    url('fonts/vodafone-light.svg#svgFontName') format('svg');
+}
+
+@font-face
+{
+    font-family: 'VodafoneBold';
+    src: url('fonts/vodafone-bold.eot');
+    src: url('fonts/vodafone-bold.eot?#iefix') format('embedded-opentype'),
+    url('fonts/vodafone-bold.woff') format('woff'),
+    url('fonts/vodafone-bold.ttf') format('truetype'),
+    url('fonts/vodafone-bold.svg#svgFontName') format('svg');
+}
+
+html, body
+{
+    font-family: "VodafoneRegular";
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+    font-family: "VodafoneLight";
+    margin-bottom: 20px;
+}
+
+a
+{
+    color: #E60000;
+}
+
+a:hover
+{
+    color: #BD0000;
+}
+
+#content .btn
+{
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+#content .btn.btn-primary
+{
+    background: #E60000;
+    color: #fff;
+    border-color: #E60000;
+}
+
+#content .btn.btn-primary:hover
+{
+    opacity: .8;
+}
+
+#content .btn.btn-secondary
+{
+    background: #333;
+    color: #fff;
+    border-color: #333;
+}
+
+#content .btn.btn-secondary:hover
+{
+    opacity: .9;
+}
+
+#header
+{
+    display: flex;
+    width: 100%;
+    height: 44px;
+    padding: 20px 0;
+    justify-content: center;
+    box-sizing: content-box;
+    border-bottom: 1px solid #ccc;
+    background: white;
+}
+
+#header .logo
+{
+    display: block;
+    height: 44px;
+    padding: 0 20px;
+    margin-right: 20px;
+    border-right: 1px solid #ccc;
+}
+
+#header .logo > *
+{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#header .logo img
+{
+    width: 44px;
+    height: inherit;
+    margin-right: 10px;
+}
+
+#header .logo h1
+{
+    font-size: 24px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+#header .celebration > *
+{
+    display: block;
+    margin: 0;
+    vertical-align: middle;
+}
+
+#header .celebration span
+{
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+#header .celebration p
+{
+    font-size: 24px;
+    font-family: "VodafoneBold";
+    line-height: 1;
+}
+
+#header .form-inline
+{
+    margin: 0 20px 0 auto;
+    border: 1px solid #ccc;
+}
+
+#header .form-inline > *
+{
+    height: 100%;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+#header .form-inline .btn img
+{
+    height: 30px;
+}
+
+#header .form-inline input
+{
+    min-width: 200px;
+}
+
+#content
+{
+    padding: 30px 40px 100px;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+#content .content-container
+{
+    width: 100%;
+    margin-right: -288px;
+    padding-right: 308px;
+    float: left;
+}
+
+#content .sidebar-container
+{
+    width: 288px;
+    float: right;
+}
+
+#content .top-links .btn
+{
+    margin: 0 10px 10px 0;
+}
+
+#content .portal-links .portal-link
+{
+    display: block;
+    margin-bottom: 20px;
+}
+
+#content .portal-links .portal-link img
+{
+    max-width: 288px;
+    width: auto;
+    height: auto;
+}
+
+#content .nav-tabs
+{
+    border-color: #ccc;
+}
+
+#content .nav-tabs .nav-item .nav-link
+{
+    height: 60px;
+    line-height: 60px;
+    position: relative;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    padding: 0 20px;
+    color: #333;
+}
+
+#content .nav-tabs .nav-item .nav-link.active:before
+{
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #E60000;
+    z-index: 1;
+}
+
+#content .nav-tabs .nav-item .nav-link.active:after
+{
+    border: 8px solid transparent;
+    border-top-color: currentColor;
+    display: block;
+    height: 0;
+    width: 0;
+    -webkit-transform: rotate(0);
+    -ms-transform: rotate(0);
+    transform: rotate(0);
+    color: #E60000;
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    z-index: 1;
+}
+
+#content .nav-tabs.secondary .nav-item .nav-link:before,
+#content .nav-tabs.secondary .nav-item .nav-link:after
+{
+    display: none;
+}
+
+#content .nav-tabs.secondary .nav-item .nav-link.active
+{
+    color: #E60000;
+}
+
+#content .tab-content.secondary > .active
+{
+    padding-top: 20px;
+}
+
+#content .link-list
+{
+    list-style-type: none;
+    padding: 0;
+}
+
+#content .link-list a
+{
+    display: block;
+    padding: 5px 0;
+}
+
+#content .helpline-form
+{
+    padding: 20px;
+    background: #EBEBEB;
+    margin-bottom: 40px;
+}
+
+#content .helpline-form form
+{
+    margin-bottom: 0;
+}
+
+#footer
+{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #ebebeb;
+    border-top: 1px solid #ccc;
+    z-index: 9999;
+}
+
+#footer .nav
+{
+    align-items: center;
+    justify-content: center;
+}
+
+#footer .nav .nav-link
+{
+    display: inline-block;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 20px;
+    color: #333333;
+}
+
+#footer .nav .nav-link:hover
+{
+    color: #E60000;
+}
