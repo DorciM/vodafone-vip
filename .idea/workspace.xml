@@ -16,21 +16,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="grid.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="grid.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grid.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="22" column="17" lean-forward="true" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+            <state relative-caret-position="236">
+              <caret line="17" column="10" lean-forward="false" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="290" column="14" lean-forward="true" selection-start-line="290" selection-start-column="14" selection-end-line="290" selection-end-column="14" />
+            <state relative-caret-position="524">
+              <caret line="172" column="21" lean-forward="true" selection-start-line="172" selection-start-column="21" selection-end-line="172" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -57,6 +57,8 @@
       <find>flex-basis</find>
       <find>padding-</find>
       <find>nav-fill</find>
+      <find>form-inline</find>
+      <find>secondary</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -69,8 +71,8 @@
         <option value="$PROJECT_DIR$/index.css" />
         <option value="$PROJECT_DIR$/menu.js" />
         <option value="$PROJECT_DIR$/grid.css" />
-        <option value="$PROJECT_DIR$/style.css" />
         <option value="$PROJECT_DIR$/grid.html" />
+        <option value="$PROJECT_DIR$/style.css" />
       </list>
     </option>
   </component>
@@ -228,12 +230,20 @@
       <updated>1516194330791</updated>
       <workItem from="1516194333534" duration="19493000" />
       <workItem from="1516609496810" duration="6758000" />
-      <workItem from="1516699935725" duration="4884000" />
+      <workItem from="1516699935725" duration="6369000" />
     </task>
+    <task id="LOCAL-00001" summary="Updated main menu item style&#10;Added submenus">
+      <created>1516705700786</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1516705700786</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31135000" />
+    <option name="totallyTimeSpent" value="32620000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-17" y="-1057" width="1619" height="1057" extended-state="0" />
@@ -263,6 +273,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updated main menu item style&#10;Added submenus" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated main menu item style&#10;Added submenus" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -332,18 +346,18 @@
     <entry file="file://$PROJECT_DIR$/index.html" />
     <entry file="file://$PROJECT_DIR$/menu.js" />
     <entry file="file://$PROJECT_DIR$/grid.css" />
-    <entry file="file://$PROJECT_DIR$/style.css">
+    <entry file="file://$PROJECT_DIR$/grid.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="290" column="14" lean-forward="true" selection-start-line="290" selection-start-column="14" selection-end-line="290" selection-end-column="14" />
+        <state relative-caret-position="236">
+          <caret line="17" column="10" lean-forward="false" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grid.html">
+    <entry file="file://$PROJECT_DIR$/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="22" column="17" lean-forward="true" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+        <state relative-caret-position="524">
+          <caret line="172" column="21" lean-forward="true" selection-start-line="172" selection-start-column="21" selection-end-line="172" selection-end-column="21" />
           <folding />
         </state>
       </provider>

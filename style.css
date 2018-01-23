@@ -144,7 +144,7 @@ a:hover
 
 #header .form-inline
 {
-    margin: 0 20px 0 auto;
+    margin: 0 23px 0 auto;
     border: 1px solid #ccc;
 }
 
@@ -165,7 +165,20 @@ a:hover
 
 #header .form-inline input
 {
-    min-width: 200px;
+    min-width: 400px;
+}
+
+#header .advanced-search .btn
+{
+    border-radius: 0;
+    min-width: 250px;
+    margin: 0px 73px 0px auto;
+    background-color: #333;
+}
+
+#header .advanced-search .btn:hover
+{
+    opacity: .9;
 }
 
 #content
