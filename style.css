@@ -224,6 +224,11 @@ a:hover
     color: #333;
 }
 
+#content .nav-tabs .nav-item .main-item
+{
+    font-weight: 600;
+}
+
 #content .nav-tabs .nav-item .nav-link.active:before
 {
     content: "";
@@ -281,6 +286,11 @@ a:hover
 {
     display: block;
     padding: 5px 0;
+}
+
+#links, #other
+{
+    padding-top: 15px;
 }
 
 #content .helpline-form
