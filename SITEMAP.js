@@ -54,15 +54,12 @@ document.cookie = 'vip=2';
 // NEVNAP
 <div><?php //include_once('nevnaptar_include.php');
 $CONFIG['nevnaptar_table']="[CCPortal].[dbo].[nevnaptar]";
-$connection=dbconnect();
-$query = "SELECT [azon],[nev],[datum] FROM ".$CONFIG['nevnaptar_table']." WHERE [datum] = '".date('m-d')."' ORDER BY nev";
-$result = mssql_query($query, $connection) or die();
-$elso=true;
-while($sor=mssql_fetch_assoc($result)){if(!$elso){echo(", ");}echo($sor["nev"]);$elso=false;}?>
+$result=mssql_query("SELECT [azon],[nev],[datum] FROM ".$CONFIG['nevnaptar_table']." WHERE [datum]='".date('m-d')."' ORDER BY nev";,dbconnect()) or die();
+$elso=true;while($sor=mssql_fetch_assoc($result)){if(!$elso)echo(", ");echo($sor["nev"]);$elso=false;}?>
 </div>
 
 // KONTAKT
-//<div onclick="window.open('mailto:cmucontentbox.hu@vodafone.com?subject=V.I.P.');">Contact</div>
+<div onclick="window.open('mailto:cmucontentbox.hu@vodafone.com?subject=V.I.P.');">Contact</div>
 
 // SITEMAP
 <a href="sitemap.php"/>
@@ -132,11 +129,11 @@ if(mssql_num_rows($result_user)>0){while($myrow=mssql_fetch_assoc($result_user))
 elseif(mssql_num_rows($result_regisztralt)>0){$myrow=mssql_fetch_assoc($result_regisztralt);$user[]=$myrow;$user[0]['usergroup_id']=1;$azonositva=true;}//print_r($user); die();
 else{if($belso){$usermaxsql=mssql_query("SELECT MAX(azon) FROM dbo.csrdw_users") or die("");$usermax=mssql_fetch_row($usermaxsql);$ujsorsz=$usermax[0]+1;mssql_query("INSERT INTO dbo.csrdw_users (azon, ntlogin, megj_nev, email, utolso_belepes, aktiv, letrehozva) VALUES(".$ujsorsz.", '".getlogin()."', '".getnev()."', '', ".time().", 1, ".time().")") or die("Invalid query: User l�trehoz�sa 1");}
 else{$usermaxsql=mssql_query("SELECT MAX(azon) FROM dbo.csrdw_users_kulso") or die("");$usermax=mssql_fetch_row($usermaxsql);$ujsorsz=$usermax[0]+1;mssql_query("INSERT INTO dbo.csrdw_users_kulso (azon, ntlogin, megj_nev, email, utolso_belepes, aktiv, letrehozva) VALUES(".$ujsorsz.", '".getlogin()."', '".getnev()."', '', ".time().", 1, ".time().")") or die("Invalid query: User l�trehoz�sa 1");}}}
-while($azonositva==false);    
+while($azonositva==false); 
 //user azonos�t�s (v�g) | Kimenet: $user[]-ben a user adatai (azon, ntlogin, megj_nev, email, utolso_belepes, letrehozva, usergroup_id) t�bb usergroup eset�n t�bb rekord
 if(isset($_GET["menu"])){$menu=$_GET["menu"];}
 if(isset($_GET["almenu"])){$almenu=$_GET["almenu"];}
-//$query="SELECT [CCPortal].[dbo].[csrdw_menu].azon, menu, almenu, nev, tartalom, belso, kulcsszo, jog, tipus, tartalom_id FROM [CCPortal].[dbo].[csrdw_menu] left join [dbo].[csrdw_content_usergroup] on csrdw_menu.azon=[dbo].[csrdw_content_usergroup].tartalom_id WHERE  menu='".$menu."' AND almenu='".$almenu."' AND (jog=".$belso." OR jog=".($belso+1).") AND csrdw_menu.aktiv=1 AND (((usergroup_id is NULL) OR ((usergroup_id is not NULL)AND(csrdw_content_usergroup.aktiv=0)))";foreach ($user as $sor){$query.="OR ((usergroup_id=".$sor['usergroup_id'].")AND(csrdw_content_usergroup.aktiv=1))";}$query.=") ORDER by nev";
+//$query="SELECT [CCPortal].[dbo].[csrdw_menu].azon, menu, almenu, nev, tartalom, belso, kulcsszo, jog, tipus, tartalom_id FROM [CCPortal].[dbo].[csrdw_menu] left join [dbo].[csrdw_content_usergroup] on csrdw_menu.azon=[dbo].[csrdw_content_usergroup].tartalom_id WHERE menu='".$menu."' AND almenu='".$almenu."' AND (jog=".$belso." OR jog=".($belso+1).") AND csrdw_menu.aktiv=1 AND (((usergroup_id is NULL) OR ((usergroup_id is not NULL)AND(csrdw_content_usergroup.aktiv=0)))";foreach ($user as $sor){$query.="OR ((usergroup_id=".$sor['usergroup_id'].")AND(csrdw_content_usergroup.aktiv=1))";}$query.=") ORDER by nev";
 //$query="SELECT [CCPortal].[dbo].[csrdw_menu].azon, menu, almenu, nev, tartalom, belso, kulcsszo, jog, tipus, tartalom_id, [CCPortal].[dbo].[csrdw_usergroups].megj_nev FROM [CCPortal].[dbo].[csrdw_menu] left join [CCPortal].[dbo].[csrdw_content_usergroup] on csrdw_menu.azon=[CCPortal].[dbo].[csrdw_content_usergroup].tartalom_id left join [CCPortal].[dbo].[csrdw_usergroups] on [CCPortal].[dbo].[csrdw_content_usergroup].usergroup_id=[CCPortal].[dbo].[csrdw_usergroups].azon WHERE menu='".$menu."' AND almenu='".$almenu."' AND (jog=".$belso." OR jog=".($belso+1).") AND csrdw_menu.aktiv=1 AND ( ((usergroup_id is NULL) OR ((usergroup_id is not NULL) AND(csrdw_content_usergroup.aktiv=0)))";foreach ($user as $sor){$query.="OR ((usergroup_id=".$sor['usergroup_id'].")AND(csrdw_content_usergroup.aktiv=1))";}$query.=") ORDER by nev";
 $query="SELECT [CCPortal].[dbo].[csrdw_menu].azon, menu, almenu, nev, tartalom, belso, kulcsszo, jog, tipus, tartalom_id, [CCPortal].[dbo].[csrdw_usergroups].azon as csopazon, [CCPortal].[dbo].[csrdw_usergroups].megj_nev FROM [CCPortal].[dbo].[csrdw_menu] left join [CCPortal].[dbo].[csrdw_content_usergroup] on csrdw_menu.azon=[CCPortal].[dbo].[csrdw_content_usergroup].tartalom_id left join [CCPortal].[dbo].[csrdw_usergroups] on [CCPortal].[dbo].[csrdw_content_usergroup].usergroup_id=[CCPortal].[dbo].[csrdw_usergroups].azon WHERE menu='".$menu."' AND almenu='".$almenu."' AND (jog=".$belso." OR jog=".($belso+1).") AND csrdw_menu.aktiv=1 AND ( ((usergroup_id is NULL) OR ((usergroup_id is not NULL)AND(csrdw_content_usergroup.aktiv=0)) OR ((usergroup_id>0) AND(csrdw_content_usergroup.aktiv=1)))) ORDER by nev";//die($query);
 $result=mssql_query($query) or die ("Invalid query1");foreach($user as $sor){$jogsi[]=$sor['usergroup_id'];}?>

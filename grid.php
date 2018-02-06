@@ -1,3 +1,5 @@
+<?php header("Expires: Sat, 1 Jan 2000 00:00:00 GMT");header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");header("Cache-Control: no-store, no-cache, must-revalidate");header("Cache-Control: post-check=0, pre-check=0",false);header("Pragma: no-cache");
+require_once("config.inc.php");?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +16,11 @@
     </div>
     <div class="celebration">
         <span>Mai névnap</span>
-        <p>Béla</p>
+        <p>
+        <?php $CONFIG['nevnaptar_table']="[CCPortal].[dbo].[nevnaptar]";
+        //$result=mssql_query("SELECT [azon],[nev],[datum] FROM ".$CONFIG['nevnaptar_table']." WHERE [datum]='".date('m-d')."' ORDER BY nev",dbconnect()) or die();
+        //$first=true;while($sor=mssql_fetch_assoc($result)){if(!$first)echo(", ");echo($sor["nev"]);$first=false;} 
+        ?></p>
     </div>
     <form class="form-inline">
         <input type="text" class="form-control" id="quickSearch" placeholder="Gyorskeresés">
@@ -38,8 +44,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript">
-// ALERT
+// COOKIE
+document.cookie='vip=2';
+document.body.onunload=function(){document.cookie="vip=1; expires=Fri, 31 Dec 1999 23:59:59 GMT;";};
 content=document.getElementById("content").appendChild(document.createElement("div"));content.setAttribute("class","content-container pt-2");
+// ALERT
 alert=document.getElementById("content").insertBefore(document.createElement("div"),document.getElementById("content").childNodes[0]);alert.setAttribute("class","alert alert-danger");alert.setAttribute("role","alert");
 notices=alert.appendChild(document.createElement("ul"));notices.setAttribute("class","mb-0");
 issues=["Papíralapú számlák kézbesítése késik","BD váltás internet ÁFA változás miatt","Vodafone honlap nem működik"];
