@@ -55,6 +55,11 @@ issues=["Papíralapú számlák kézbesítése késik","BD váltás internet ÁF
 issues.map(function(notice){notices.appendChild(document.createElement("li")).innerHTML=notice});
 // PERSONAL
 personal=content.appendChild(document.createElement("div"));personal.setAttribute("class","top-links pb-4");personal.appendChild(document.createElement("h2")).innerHTML="Saját top linkek";
+personal.innerHTML="<?php $query="SELECT ".$CONFIG['csrdw_menu_table'].".azon,menu,almenu,nev,tartalom,belso,kulcsszo,jog,tipus,tartalom_id,prioritas FROM ".$CONFIG['csrdw_menu_table']." left join ".$CONFIG['csrdw_content_usergroup_table']." on ".$CONFIG['csrdw_menu_table'].".azon=".$CONFIG['csrdw_content_usergroup_table'].".tartalom_id join ".$CONFIG['sajatlink_table']." on ".$CONFIG['csrdw_menu_table'].".azon=".$CONFIG['sajatlink_table'].".azon and [CCPortal].dbo.sajatlink_new.login='".getlogin()."' WHERE (jog=".$belso." OR jog=".($belso+1).") AND ".$CONFIG['csrdw_menu_table'].".aktiv=1 AND almenu <> 'Teszt' AND (((usergroup_id is NULL) OR ((usergroup_id is not NULL)AND(".$CONFIG['csrdw_content_usergroup_table'].".aktiv=0)))"; 
+foreach($user as $sor){$query.=" OR ((usergroup_id=".$sor['usergroup_id'].")AND(".$CONFIG['csrdw_content_usergroup_table'].".aktiv=1))";}
+$query.=") ORDER by prioritas";
+$links=mssql_query($query) or die ("Invalid query");
+if(mssql_num_rows($links)){$index=0;while(($record=mssql_fetch_assoc($links))&&($index<10)){if($record['tipus']==1){echo($record['nev']);}} ?>";
 favorites=["Üzletkereső","1SF","Panaszkezelő","Apolló","Eventus","Készüléktár","Nemzetközi számok","Amdocs mobile","Meghatalmazás","Csiribiri"];
 favorites.map(function(link){node=document.getElementsByClassName("top-links")[0].appendChild(document.createElement("a"));node.setAttribute("class","btn btn-lg btn-secondary");node.innerHTML=link});
 // NAVIGATION
@@ -93,7 +98,7 @@ categories.map(function(category,index)
 tabs.childNodes[0].childNodes[0].className+=" active";
 menu.childNodes[0].className+=" show active";
 // WORKSPACE
-workspace=document.createElement("link");workspace.setAttribute("rel","import");workspace.setAttribute("href","helpline.html");workspace.setAttribute("onload","content.insertBefore(workspace.import.documentElement.cloneNode(true),navigation)");document.head.appendChild(workspace);
+workspace=document.createElement("link");workspace.setAttribute("rel","import");workspace.setAttribute("href","helpline.php");workspace.setAttribute("onload","content.insertBefore(workspace.import.documentElement.cloneNode(true),navigation)");document.head.appendChild(workspace);
 // FURTHER PORTALS
 portals=["http://weoapplf6/ccportal/csrdw/egyéb/amdocstrening/TRÉNING%20PORTÁL%20CUCC/index.html","http://weoapplf6/ccportal/csrdw/redportal/","http://weoapplf6/ccportal/csrdw/promoportal/","http://fleetweb/","http://weoapplf6/ccportal/csrdw/telesalesportal/","http://weoapplf6/ccportal/csrdw/retentionportal/"];
 sidebar=document.getElementsByTagName("main")[0].appendChild(document.createElement("div"));sidebar.setAttribute("class","sidebar-container pt-2");

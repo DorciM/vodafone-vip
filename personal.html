@@ -6,18 +6,20 @@ $CONFIG['csrdw_content_usergroup_table']="[CCPortal].[dbo].[csrdw_content_usergr
 $connection=dbconnect();//if((getlogin()!='zoltan.gaal')&&(getlogin()!='daniel.gilan')){die('Az alkalmazás karbantartás miatt átmenetileg nem érhető el.');}
 $getlogin=getlogin();
 if((getenv("COMPUTERNAME")==='WEOAPPLF6')){$belso=1;}else{$belso=0;} 
+
 // AUTHENTICATION
 $authenticated=false;
 if($belso)
 {$result_user=mssql_query("SELECT A.azon,A.ntlogin,A.megj_nev,A.email,A.utolso_belepes,A.letrehozva,csrdw_usergroup_user.usergroup_id FROM ((SELECT * FROM dbo.csrdw_users WHERE ntlogin='".$getlogin."') UNION ALL (SELECT * FROM dmzapplf6.ccportal.dbo.csrdw_users_kulso WHERE ntlogin='".$getlogin."')) as A INNER JOIN csrdw_usergroup_user ON A.azon=csrdw_usergroup_user.user_id WHERE (A.ntlogin='".$getlogin."') AND (A.aktiv=1) AND (csrdw_usergroup_user.aktiv=1)") or die();
  $result_regisztralt=mssql_query("SELECT A.azon,A.ntlogin,A.megj_nev,A.email,A.utolso_belepes,A.letrehozva FROM ((SELECT * FROM dbo.csrdw_users WHERE ntlogin='".$getlogin."') UNION ALL (SELECT * FROM dmzapplf6.ccportal.dbo.csrdw_users_kulso WHERE ntlogin='".$getlogin."')) as A WHERE (A.ntlogin='".$getlogin."') AND (A.aktiv=1)") or die();
 }else
-{$result_user=mssql_query("SELECT A.azon,A.ntlogin,A.megj_nev,A.email,A.utolso_belepes,A.letrehozva, csrdw_usergroup_user.usergroup_id FROM ((SELECT * FROM dbo.csrdw_users WHERE ntlogin='".$getlogin."') UNION ALL (SELECT * FROM dbo.csrdw_users_kulso WHERE ntlogin='".$getlogin."')) as A INNER JOIN csrdw_usergroup_user ON A.azon=csrdw_usergroup_user.user_id WHERE (A.ntlogin='".$getlogin."') AND (A.aktiv=1) AND (csrdw_usergroup_user.aktiv=1)") or die();
- $result_regisztralt=mssql_query("SELECT A.azon, A.ntlogin, A.megj_nev, A.email, A.utolso_belepes, A.letrehozva FROM ((SELECT * FROM dbo.csrdw_users WHERE ntlogin='".$getlogin."') UNION ALL (SELECT * FROM dbo.csrdw_users_kulso WHERE ntlogin='".$getlogin."')) as A WHERE (A.ntlogin='".$getlogin."') AND (A.aktiv=1)") or die();
+{$result_user=mssql_query("SELECT A.azon,A.ntlogin,A.megj_nev,A.email,A.utolso_belepes,A.letrehozva,csrdw_usergroup_user.usergroup_id FROM ((SELECT * FROM dbo.csrdw_users WHERE ntlogin='".$getlogin."') UNION ALL (SELECT * FROM dbo.csrdw_users_kulso WHERE ntlogin='".$getlogin."')) as A INNER JOIN csrdw_usergroup_user ON A.azon=csrdw_usergroup_user.user_id WHERE (A.ntlogin='".$getlogin."') AND (A.aktiv=1) AND (csrdw_usergroup_user.aktiv=1)") or die();
+ $result_regisztralt=mssql_query("SELECT A.azon,A.ntlogin,A.megj_nev,A.email,A.utolso_belepes,A.letrehozva FROM ((SELECT * FROM dbo.csrdw_users WHERE ntlogin='".$getlogin."') UNION ALL (SELECT * FROM dbo.csrdw_users_kulso WHERE ntlogin='".$getlogin."')) as A WHERE (A.ntlogin='".$getlogin."') AND (A.aktiv=1)") or die();
 }
 if(mssql_num_rows($result_user)>0){while($myrow=mssql_fetch_assoc($result_user)){$user[]=$myrow;}/*mssql_query("UPDATE dbo.csrdw_users SET utolso_belepes=".time()." WHERE azon=".$user[0]['azon']) or die("");*/$authenticated=true;}
 elseif(mssql_num_rows($result_regisztralt)>0){$myrow=mssql_fetch_assoc($result_regisztralt);$user[]=$myrow;$user[0]['usergroup_id']=1;/*print_r($user); die();*/$authenticated=true;}
 else{die("Hiba: Nem regisztrált user");}//print_r($user);
+
 // OPTIONS
 if((isset($_GET['ajax']))&&($_GET['ajax']==1))
 {$output='<select id="almenu_select" name="almenu" size="1" style="width:250px;" onChange="almenu_valt();"><option>Válassz!!!</option>';
@@ -44,6 +46,7 @@ if((isset($_GET['ajax']))&&($_GET['ajax']==2))
  echo($output);
  die();
 }
+
 // PRIORITIES
 if((isset($_GET['function']))&&($_GET['function']=="priorle")&&(isset($_GET['link']))&&(preg_match("/^[0-9]+$/",$_GET['link'])))
 {$result=mssql_query("SELECT azon,prioritas FROM ".$CONFIG['sajatlink_table']." WHERE login='".getlogin()."' ORDER BY prioritas",$connection) or die();
@@ -61,6 +64,7 @@ if((isset($_GET['function']))&&($_GET['function']=="priorfel")&&(isset($_GET['li
 }
 if(isset($kiutott)){$ujprior=$kiutott['prioritas'];mssql_query("UPDATE ".$CONFIG['sajatlink_table']." SET prioritas=".$eredeti['prioritas']." WHERE azon=".$kiutott['azon']." AND login='".getlogin()."'", $connection) or die();mssql_query("UPDATE ".$CONFIG['sajatlink_table']." SET prioritas=".$ujprior." WHERE azon=".$eredeti['azon']." AND login='".getlogin()."'", $connection) or die();}/*echo("UPDATE ".$CONFIG['sajatlink_table']." SET prioritas=".$eredeti['prioritas']." WHERE azon=".$kiutott['azon']." AND login='".getlogin()."'");*/
 }
+
 // TOPLINKS
 if(isset($_GET["link"]))
 {if($_GET["link"]==0){$msg='Válassz linket!';}else
@@ -72,6 +76,7 @@ if(isset($_GET["link"]))
 }
 }
 }
+
 // PERSONAL LINKS /*case when (select MAX([prioritas]) from [CCPortal].[dbo].[sajatlink_new] where [login]='zoltan.gaal') is null then 1 else (select MAX([prioritas]) from [CCPortal].[dbo].[sajatlink_new] where [login]='zoltan.gaal')+1 end as prioritas*/
 if(isset($_GET["sorrend"])){$sorrend=$_GET["sorrend"];}else{$sorrend='prioritas';}
 $query="SELECT ".$CONFIG['csrdw_menu_table'].".azon,menu,almenu,nev,tartalom,belso,kulcsszo,jog,tipus,tartalom_id,prioritas FROM ".$CONFIG['csrdw_menu_table']." left join ".$CONFIG['csrdw_content_usergroup_table']." on ".$CONFIG['csrdw_menu_table'].".azon=".$CONFIG['csrdw_content_usergroup_table'].".tartalom_id join ".$CONFIG['sajatlink_table']." on ".$CONFIG['csrdw_menu_table'].".azon=".$CONFIG['sajatlink_table'].".azon and [CCPortal].dbo.sajatlink_new.login='".getlogin()."' WHERE (jog=".$belso." OR jog=".($belso+1).") AND ".$CONFIG['csrdw_menu_table'].".aktiv=1 AND almenu <> 'Teszt' AND (((usergroup_id is NULL) OR ((usergroup_id is not NULL)AND(".$CONFIG['csrdw_content_usergroup_table'].".aktiv=0)))"; 
@@ -79,6 +84,7 @@ foreach($user as $sor){$query.="OR ((usergroup_id=".$sor['usergroup_id'].")AND("
 $query.=") ORDER by prioritas";/*die($query);*/
 $slinkek=mssql_query($query) or die ("Invalid query1");
 /*$slinkek=mssql_query("SELECT ".$CONFIG['csrdw_menu_table'].".* FROM ".$CONFIG['csrdw_menu_table'].", ".$CONFIG['sajatlink_table']." WHERE ".$CONFIG['csrdw_menu_table'].".azon=".$CONFIG['sajatlink_table'].".azon AND login='".getlogin()."' ORDER BY ".$sorrend,$connection) or die ("Invalid query2");*/
+
 // TOP10
 if((isset($_GET['view']))&&($_GET['view']=="top10"))
 {?><html><head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2"><title>Top10</title><LINK REL="stylesheet" HREF="intranet.css" TYPE="TEXT/CSS"><!--<link rel="stylesheet" type="text/css" href="buttonstyles/css/default.css" /><link rel="stylesheet" type="text/css" href="buttonstyles/css/component.css" /><script src="buttonstyles/js/modernizr.custom.js"></script>--><style type="text/css">.btn{background:#ffffff;font-family:Vodafone Rg;color:rgb(255,255,255);font-size:14px;font-weight:bold;padding:7px 5px 7px 5px;text-decoration:none;width:120px;height:30px;overflow:hidden;background-image:url("gomb03_blue.gif");}.btn:hover{color:white;text-decoration:none;background-image:url("gomb03_blue_hover.gif");}</style></head><body bgcolor="#FFFFFF" onload='parent.resizeIframe(document.body.scrollHeight)'><center><span style="font-size:14px;font-weight:bold;">Saját TOP10 linked:<br></span><div style="height:30px;margin-bottom:5px;margin-top:5px;border:none;width:100%;"><?php 
@@ -103,62 +109,60 @@ function doWork(menu,almenu,nev)
 {var d=new Date();
  httpObject=getHTTPObject();
  if(httpObject!=null)
-{httpObject.open("GET", "click_logger.php?nev="+nev+"&menu="+menu+"&almenu="+almenu+"&login=<?php echo(getlogin()); ?>&timestamp="+d.getTime(), true);
- httpObject.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-2");
+{httpObject.open("GET","click_logger.php?nev="+nev+"&menu="+menu+"&almenu="+almenu+"&login=<?php echo(getlogin()); ?>&timestamp="+d.getTime(),true);
+ httpObject.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=ISO-8859-2");
  httpObject.send(null);
  httpObject.onreadystatechange=setOutput;
 }
 }
 var httpObject=null;
 function setOutput2(){if(httpObject2.readyState==4){document.getElementById('almenu_selector').innerHTML=httpObject2.responseText;almenu_selector.innerHTML=httpObject2.responseText;}}
-function fomenu_valt(){document.getElementById('almenu_selector').innerHTML='<select id="almenu_select" name="almenu" size="1" style="width: 250px;" onChange="almenu_valt();"><option value=""></option></select>';
-var d=new Date();
-httpObject2=getHTTPObject();
-if (httpObject2 != null) {
-httpObject2.open("GET", "sajat.php?ajax=1&menu="+encodeURIComponent(document.getElementById('fomenu_selector').value)+"&login=<?php echo(getlogin()); ?>&timestamp="+d.getTime(), true);
-httpObject2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-2");
-httpObject2.send(null);
-httpObject2.onreadystatechange=setOutput2;}}
-// Change the value of the outputText field
+function fomenu_valt()
+{document.getElementById('almenu_selector').innerHTML='<select id="almenu_select" name="almenu" size="1" style="width: 250px;" onChange="almenu_valt();"><option value=""></option></select>';
+ var d=new Date();
+ httpObject2=getHTTPObject();
+ if(httpObject2!=null)
+{httpObject2.open("GET","sajat.php?ajax=1&menu="+encodeURIComponent(document.getElementById('fomenu_selector').value)+"&login=<?php echo(getlogin()); ?>&timestamp="+d.getTime(),true);
+ httpObject2.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=ISO-8859-2");
+ httpObject2.send(null);
+ httpObject2.onreadystatechange=setOutput2;
+}
+}
 function setOutput3(){if(httpObject3.readyState==4){document.getElementById('link_selector').innerHTML=httpObject3.responseText;link_selector.innerHTML=httpObject3.responseText;}}
-function almenu_valt(){var d=new Date();
-httpObject3=getHTTPObject();
-if(httpObject3!=null){
-httpObject3.open("GET", "sajat.php?ajax=2&menu="+encodeURIComponent(document.getElementById('fomenu_selector').value)+"&almenu="+encodeURIComponent(document.getElementById('almenu_select').value)+"&login=<?php echo(getlogin()); ?>&timestamp="+d.getTime(), true);
-httpObject3.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-2");
-httpObject3.send(null);
-httpObject3.onreadystatechange=setOutput3;}}</SCRIPT>
-<p align="center" class="heading3red">Saj�t linkek</p>
-<?php if (mssql_num_rows($slinkek)){?><p>
-<table width="80%" align="center" cellspacing="1" cellpadding="4">
-<tr bgcolor="#E60000" CLASS="fejlec">
-<td align="center" width="15%"><b>Men�</b></td>
-<td align="center" width="15%"><b>Almen�</b></td>
-<td align="center" width="55%"><b>Link</b></td>
-<td align="center" width="55%"><b>Sorrend</b></td>
-<td align="center"><span class="txtwhite"><b>Link t�rl�se</b></span></td></tr>
-<?php $i=0;while($myrow=mssql_fetch_assoc($slinkek)){if($i<10){if($i%2){$bgcolor='#CDCDCD';}else{$bgcolor='#EEEEEE';}}else{if($i%2){$bgcolor='#CDCDCD';}else{$bgcolor='#EEEEEE';}}?>
-<tr bgcolor="<?php echo $bgcolor;?>" <?php if($i<10){echo(' class="top10"');}?>>
-<td><?php echo $myrow['menu'] ?></td>
-<td><?php echo $myrow['almenu'] ?></td>
-<td><?php if($myrow['tipus']==1){?><a onclick="doWork('<?php echo($myrow['menu']); ?>', '<?php echo($myrow['almenu']); ?>', '<?php echo($myrow['nev']); ?>');" href="<?php if($belso){echo($myrow['tartalom']);}else{echo(str_replace("weoapplf6/ccportal", "dmzapplf6", $myrow['tartalom']));}?>" <?php if(!$myrow['belso']) {echo ' target="kozep"';} else {echo ' target="_blank"';}?>>
-<?php echo $myrow['nev'] ?></a><?php }elseif($myrow['tipus']==2){?><a onclick="doWork('<?php echo($myrow['menu']); ?>', '<?php echo($myrow['almenu']); ?>', '<?php echo($myrow['nev']); ?>');" href="content.php?content_id=<?php echo($myrow['azon']); ?>" <?php if(!$myrow['belso']) {echo ' target="kozep"';} else {echo ' target="_blank"';}?>>
-<?php echo $myrow['nev'] ?></a><?php }?></td>
-<td align="center"><a href="sajat.php?function=priorfel&link=<?php echo $myrow['azon'] ?>"><img src="triangle_red_up.gif" style="width: 15px; height: 10px; text-decoration: none; border: none;"></a>&nbsp;&nbsp;&nbsp;<a href="sajat.php?function=priorle&link=<?php echo $myrow['azon'] ?>"><img src="triangle_red_down.gif" style="width: 15px; height: 10px; text-decoration: none; border: none;"></a></td>
-<td align="center"><a href="#" onClick="torol(<?php echo $myrow['azon'] ?>, '<?php echo $myrow['menu'] ?> - <?php echo $myrow['almenu'] ?> - <?php echo $myrow['nev'] ?>')" class="lnkred">T�rl�s</a></td></tr>
-<?php $i++;}?></table></p><?php }?>
+function almenu_valt()
+{var d=new Date();
+ httpObject3=getHTTPObject();
+ if(httpObject3!=null)
+{httpObject3.open("GET", "sajat.php?ajax=2&menu="+encodeURIComponent(document.getElementById('fomenu_selector').value)+"&almenu="+encodeURIComponent(document.getElementById('almenu_select').value)+"&login=<?php echo(getlogin()); ?>&timestamp="+d.getTime(), true);
+ httpObject3.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-2");
+ httpObject3.send(null);
+ httpObject3.onreadystatechange=setOutput3;
+}
+}
+</script>
+<p align="center" class="heading3red">Saját linkek</p>
+<?php if(mssql_num_rows($slinkek))
+{?><p><table width="80%" align="center" cellspacing="1" cellpadding="4"><tr bgcolor="#E60000" CLASS="fejlec"><td align="center" width="15%"><b>Menü</b></td><td align="center" width="15%"><b>Almenü</b></td><td align="center" width="55%"><b>Link</b></td><td align="center" width="55%"><b>Sorrend</b></td><td align="center"><span class="txtwhite"><b>Link törlése</b></span></td></tr><?php 
+ $i=0;while($myrow=mssql_fetch_assoc($slinkek))
+{if($i<10){if($i%2){$bgcolor='#CDCDCD';}else{$bgcolor='#EEEEEE';}}
+ else{if($i%2){$bgcolor='#CDCDCD';}else{$bgcolor='#EEEEEE';}}
+ ?><tr bgcolor="<?php echo $bgcolor;
+ ?>"<?php if($i<10){echo(' class="top10"');}
+ ?>><td><?php echo $myrow['menu'] ?></td><td><?php echo $myrow['almenu'] ?></td><td><?php 
+ if($myrow['tipus']==1){?><a onclick="doWork('<?php echo($myrow['menu']);?>','<?php echo($myrow['almenu']);?>','<?php echo($myrow['nev']);?>');" href="<?php if($belso){echo($myrow['tartalom']);}else{echo(str_replace("weoapplf6/ccportal", "dmzapplf6", $myrow['tartalom']));}?>" <?php if(!$myrow['belso']) {echo ' target="kozep"';} else {echo ' target="_blank"';}?>><?php echo $myrow['nev'] ?></a><?php }
+ elseif($myrow['tipus']==2){?><a onclick="doWork('<?php echo($myrow['menu']); ?>','<?php echo($myrow['almenu']); ?>','<?php echo($myrow['nev']); ?>');" href="content.php?content_id=<?php echo($myrow['azon']); ?>" <?php if(!$myrow['belso']){echo ' target="kozep"';}else{echo ' target="_blank"';}?>><?php echo $myrow['nev'] ?></a><?php }
+ ?></td><td align="center"><a href="sajat.php?function=priorfel&link=<?php echo $myrow['azon'] ?>"><img src="triangle_red_up.gif" style="width: 15px; height: 10px; text-decoration: none; border: none;"></a>&nbsp;&nbsp;&nbsp;<a href="sajat.php?function=priorle&link=<?php echo $myrow['azon'] ?>"><img src="triangle_red_down.gif" style="width:15px;height:10px;text-decoration:none;border:none;"></a></td><td align="center"><a href="#" onClick="torol(<?php echo $myrow['azon'] ?>,'<?php echo $myrow['menu'] ?> - <?php echo $myrow['almenu'] ?> - <?php echo $myrow['nev'] ?>')" class="lnkred">Törlés</a></td></tr><?php $i++;
+}?></table></p><?php 
+}?>
 <hr color="red" width="100%">
-<p align="center" class="heading2">�j link hozz�ad�sa</p>
-<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript"></SCRIPT>
+<p align="center" class="heading2">Új link hozzáadása</p>
 <form name="ujlink" method="get">
 <table width="60%" align="center" cellspacing="1" cellpadding="1">
-<tr bgcolor="#E60000" height="30"><td align="center" colspan="2" class="txtwhite"><b>�j link</b></td></tr>
-<tr bgcolor="#EEEEEE"><td align="center"><select name="menu" id="fomenu_selector" size="1" style="width: 250px;" onChange="fomenu_valt();">
-<option>V�lassz!!!</option>
-<?php $fomenuk=mssql_query("SELECT distinct [menu] FROM ".$CONFIG['csrdw_menu_table'], $connection) or die();
-while($sor=mssql_fetch_assoc($fomenuk)){echo('<option value="'.$sor["menu"].'">'.$sor["menu"].'</option>');}?></select></td>
-</tr>
+<tr bgcolor="#E60000" height="30"><td align="center" colspan="2" class="txtwhite"><b>Új link</b></td></tr>
+<tr bgcolor="#EEEEEE"><td align="center"><select name="menu" id="fomenu_selector" size="1" style="width: 250px;" onChange="fomenu_valt();"><option>Válassz!!!</option><?php 
+$fomenuk=mssql_query("SELECT distinct [menu] FROM ".$CONFIG['csrdw_menu_table'],$connection) or die();
+while($sor=mssql_fetch_assoc($fomenuk)){echo('<option value="'.$sor["menu"].'">'.$sor["menu"].'</option>');}?></select></td></tr>
 <tr bgcolor="#EEEEEE"><td align="center"><div id='almenu_selector'><select id='almenu_select' name="almenu" size="1" style="width: 250px;" onChange="almenu_valt();"></select></div></td></tr>
 <tr bgcolor="#EEEEEE"><td align="center"><div id='link_selector'><select name="link" size="1" style="width: 250px;"></select></div></td></tr>
-<tr bgcolor="#CDCDCD"><td align="center"><input type="submit" value=" Hozz�ad�s "></td></tr>
+<tr bgcolor="#CDCDCD"><td align="center"><input type="submit" value=" Hozzáadás "></td></tr>
 <input type="hidden" name="function" value="add"></table></form></body></html>
