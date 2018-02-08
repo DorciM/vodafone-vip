@@ -1,0 +1,65 @@
+<div class="helpline-form pb-4">
+    <h2>HelpLine top információk</h2>
+    <form>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="keyword">Keresőszó</label>
+                    <input type="text" class="form-control" id="keyword" onKeyUp="hl_top_questions_smart_search()">
+                </div>
+                <div class="form-group">
+                    <label for="number">Sorszám</label>
+                    <input type="text" class="form-control" id="number">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="topics">Témák</label>
+                    <select class="form-control" id="topics" onChange="hl_top_questions_smart_search()">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="startDate">Kezdő dátum</label>
+                    <input type="text" class="form-control datepicker" id="startDate" onKeyUp="hl_top_questions_smart_search()">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="endDate">Záró dátum</label>
+                    <input type="text" class="form-control datepicker" id="endDate" onKeyUp="hl_top_questions_smart_search()">
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <button type="submit" class="btn btn-lg btn-primary">Küldés</button>
+        </div>
+    </form>
+</div>
+<div style="width:100%;" id="included_hl_top_questions"><?php include("hl_top_questions/hl_top_questions_include.php");?></div>
+<script src="jquery-1.12.4.min.js"></script>
+<script>
+request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+request.onreadystatechange=function()
+{if(this.readyState==4&&this.status==200)
+{console.log(this.responseText);
+ topics=["1","2","3","4"];
+ //topics=JSON.parse(this.responseText);
+ topics.map(function(topic){option=document.getElementsByTagName("select")[0].appendChild(document.createElement("option"));topic.setAttibute("value",topic['id']+">"+topic['tema']);});
+}
+}
+request.open("GET","helpline.php",true);
+request.send();
+
+function hl_top_questions_smart_search(){$.ajax(
+{type:'POST',
+ url:'hl_top_questions/hl_top_questions_include.php',
+ data:{'hl_keresoszo':$('#hl_keresoszo').val(),'hl_tema':$('#hl_tema').val(),'hl_sorszam':$('#hl_sorszam').val(),'hl_datum_tol':$('#hl_datum_tol').val(),'hl_datum_ig':$('#hl_datum_ig').val(),'ajax':1},
+ error:function(msg){alert('Hiba az ajax kéréskor');},
+ success:function(msg){$("#included_hl_top_questions").html(msg);}
+});}
+
+</script>

@@ -1,5 +1,6 @@
 <?php header("Expires: Sat, 1 Jan 2000 00:00:00 GMT");header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");header("Cache-Control: no-store, no-cache, must-revalidate");header("Cache-Control: post-check=0, pre-check=0",false);header("Pragma: no-cache");
-require_once("config.inc.php");?>
+require_once("config.inc.php");
+if(isset($_GET['log']))mssql_query("INSERT dbo.logger(datum,login,oldal) VALUES ('".date('Y-m-d H:i:s')."','".getlogin()."','VIP megnyitasa'+'".($_GET['log']==2)?" napibol":""."')") or die();?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,17 +20,17 @@ require_once("config.inc.php");?>
         <p>
         <?php $CONFIG['nevnaptar_table']="[CCPortal].[dbo].[nevnaptar]";
         //$result=mssql_query("SELECT [azon],[nev],[datum] FROM ".$CONFIG['nevnaptar_table']." WHERE [datum]='".date('m-d')."' ORDER BY nev",dbconnect()) or die();
-        //$first=true;while($sor=mssql_fetch_assoc($result)){if(!$first)echo(", ");echo($sor["nev"]);$first=false;} 
-        ?></p>
+        //$first=true;while($record=mssql_fetch_assoc($result)){if(!$first)echo(", ");echo($record["nev"]);$first=false;} 
+        ?>Lukrécia, Brünhilda</p>
     </div>
-    <form class="form-inline">
-        <input type="text" class="form-control" id="quickSearch" placeholder="Gyorskeresés">
+    <form class="form-inline" action="search.php" method="post" target="workspace" onsubmit=function(){document.body.style.cursor='wait';workspace.document.body.style.cursor='wait'}>
+        <input type="text" class="form-control" id="quickSearch" placeholder="Gyorskeresés" name="keyword">
         <button type="submit" class="btn btn-primary">
             <img src="images/search.svg" alt="Keresés"/>
         </button>
     </form>
     <div class="advanced-search">
-        <a href="#" class="btn btn-lg btn-secondary">Napi Infó Kereső</a>
+        <a href="akt2.php" class="btn btn-lg btn-secondary">Napi Infó Kereső</a>
     </div>
 </header>
 <main id="content" class="clearfix"></main>
@@ -48,20 +49,34 @@ require_once("config.inc.php");?>
 document.cookie='vip=2';
 document.body.onunload=function(){document.cookie="vip=1; expires=Fri, 31 Dec 1999 23:59:59 GMT;";};
 content=document.getElementById("content").appendChild(document.createElement("div"));content.setAttribute("class","content-container pt-2");
-// ALERT
-alert=document.getElementById("content").insertBefore(document.createElement("div"),document.getElementById("content").childNodes[0]);alert.setAttribute("class","alert alert-danger");alert.setAttribute("role","alert");
-notices=alert.appendChild(document.createElement("ul"));notices.setAttribute("class","mb-0");
-issues=["Papíralapú számlák kézbesítése késik","BD váltás internet ÁFA változás miatt","Vodafone honlap nem működik"];
-issues.map(function(notice){notices.appendChild(document.createElement("li")).innerHTML=notice});
+// ALERTS
+alerts=document.getElementById("content").insertBefore(document.createElement("div"),document.getElementById("content").childNodes[0]);alerts.setAttribute("class","alert alert-danger");alerts.setAttribute("role","alert");
+notices=alerts.appendChild(document.createElement("ul"));notices.setAttribute("class","mb-0");
+request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+request.onreadystatechange=function()
+{if(this.readyState==4&&this.status==200)
+{console.log(this.responseText);
+ issues=["Papíralapú számlák kézbesítése késik","BD váltás internet ÁFA változás miatt","Vodafone honlap nem működik"];
+ //issues=JSON.parse(this.responseText);
+ issues.alerts.map(function(notice){alert=notices.appendChild(document.createElement("li"));alert.innerHTML=notice});
+ if(issues.admin){form=document.createElement("link");form.setAttribute("href","alert_form.html");adder=notice.appendChild(document.createElement("button"));adder.innerHTML="Create";adder.onclick=function(){form.show()}};
+}
+}
+request.open("GET","alert.php",true);
+request.send();
 // PERSONAL
 personal=content.appendChild(document.createElement("div"));personal.setAttribute("class","top-links pb-4");personal.appendChild(document.createElement("h2")).innerHTML="Saját top linkek";
-personal.innerHTML="<?php $query="SELECT ".$CONFIG['csrdw_menu_table'].".azon,menu,almenu,nev,tartalom,belso,kulcsszo,jog,tipus,tartalom_id,prioritas FROM ".$CONFIG['csrdw_menu_table']." left join ".$CONFIG['csrdw_content_usergroup_table']." on ".$CONFIG['csrdw_menu_table'].".azon=".$CONFIG['csrdw_content_usergroup_table'].".tartalom_id join ".$CONFIG['sajatlink_table']." on ".$CONFIG['csrdw_menu_table'].".azon=".$CONFIG['sajatlink_table'].".azon and [CCPortal].dbo.sajatlink_new.login='".getlogin()."' WHERE (jog=".$belso." OR jog=".($belso+1).") AND ".$CONFIG['csrdw_menu_table'].".aktiv=1 AND almenu <> 'Teszt' AND (((usergroup_id is NULL) OR ((usergroup_id is not NULL)AND(".$CONFIG['csrdw_content_usergroup_table'].".aktiv=0)))"; 
-foreach($user as $sor){$query.=" OR ((usergroup_id=".$sor['usergroup_id'].")AND(".$CONFIG['csrdw_content_usergroup_table'].".aktiv=1))";}
-$query.=") ORDER by prioritas";
-$links=mssql_query($query) or die ("Invalid query");
-if(mssql_num_rows($links)){$index=0;while(($record=mssql_fetch_assoc($links))&&($index<10)){if($record['tipus']==1){echo($record['nev']);}} ?>";
-favorites=["Üzletkereső","1SF","Panaszkezelő","Apolló","Eventus","Készüléktár","Nemzetközi számok","Amdocs mobile","Meghatalmazás","Csiribiri"];
-favorites.map(function(link){node=document.getElementsByClassName("top-links")[0].appendChild(document.createElement("a"));node.setAttribute("class","btn btn-lg btn-secondary");node.innerHTML=link});
+request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+request.onreadystatechange=function()
+{if(this.readyState==4&&this.status==200)
+{console.log(this.responseText);
+ favorites=["Üzletkereső","1SF","Panaszkezelő","Apolló","Eventus","Készüléktár","Nemzetközi számok","Amdocs mobile","Meghatalmazás","Csiribiri"];
+ //favorites=JSON.parse(this.responseText);
+ favorites.map(function(link){node=document.getElementsByClassName("top-links")[0].appendChild(document.createElement("a"));node.setAttribute("class","btn btn-lg btn-secondary");node.innerHTML=link});
+}
+}
+request.open("GET","personal.php?view=favorites",true);
+request.send();
 // NAVIGATION
 navigation=content.appendChild(document.createElement("div"));navigation.setAttribute("class","selections");navigation.appendChild(document.createElement("h2")).innerHTML="Linkek böngészése";
 tabs=document.getElementsByClassName("selections")[0].appendChild(document.createElement("ul"));tabs.setAttribute("id","preselectTab");tabs.setAttribute("class","nav nav-tabs nav-fill");tabs.setAttribute("role","tablist");

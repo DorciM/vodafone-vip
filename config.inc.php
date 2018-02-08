@@ -8,9 +8,9 @@ if(belsos())
  $CONFIG['file_root']="P:/inetpub/wwwroot/";
 }
 $CONFIG['adatb_szerver']="weoapplf6";
-$CONFIG['adatb_felhnev']="";
-$CONFIG['adatb_jelszo']="";
-$CONFIG['adatb_nev']="CCPortal";
+$CONFIG['adatb_felhnev']="csrdw_dev";
+$CONFIG['adatb_jelszo']="CSRDWru13z789";
+$CONFIG['adatb_nev']="CCPortal_dev2";
 $CONFIG['adatb_tabla_menu']="dbo.csrdw_menu";
 $CONFIG['adatb_tabla_users']="dbo.csrdw_users";
 $CONFIG['adatb_tabla_usergroups']="dbo.csrdw_usergroups";

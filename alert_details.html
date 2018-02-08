@@ -1,0 +1,13 @@
+<div id="details"></div>
+<script>
+request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+request.onreadystatechange=function()
+{if(this.readyState==4&&this.status==200)
+{console.log(this.responseText);
+ details=JSON.parse(this.responseText);
+ details.map(function(detail){document.getElementsById("details")[0].innerHTML=detail});
+ if(details.admin){terminator=document.getElementsById("details")[0].appendChild(document.createElement("button"));terminator.href="alert.php?function=delete&id="+details['alertid']};terminator.innerHtml="Delete";};
+}
+}
+request.open("GET","alert.php?function=details&id="+alertid,true);
+request.send();</script>

@@ -1,0 +1,19 @@
+<form action="akt_riaszt.php" method="get">
+<input type="hidden" name="function" value="add">
+Cím:<input type="text" name="subject" id="subject" maxlength="100" style="width: 100%;">
+Szöveg:<textarea name="details" style="width:100%;height:150px"></textarea>
+A következő csoportok számára legyen látható (Ha egyet sem jelölsz be, mindenki látni fogja.):
+<input type="checkbox"></input>
+<input type="submit" value="Hozzáadás"></form>
+<script>
+request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+request.onreadystatechange=function()
+{if(this.readyState==4&&this.status==200)
+{console.log(this.responseText);
+ groups=JSON.parse(this.responseText);
+ groups.map(function(group){checkbox=document.getElementsByTagName("form")[0].insertBefore(document.createElement("input"),document.getElementsByTagName("input")[document.getElementsByTagName("input").length-1]);checkbox.setAttribute("type","checkbox");checkbox.innerHTML=group});
+}
+}
+request.open("GET","alert.php?function=grouplist",true);
+request.send();
+document.getElementById('subject').focus();</script>
