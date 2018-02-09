@@ -14,7 +14,7 @@ html, body{font-family:"VodafoneRegular";-webkit-font-smoothing:antialiased;}
 h1, h2, h3, h4, h5, h6{font-family:"VodafoneLight";margin-bottom:20px;}
 a{color:#E60000;}
 a:hover{color:#BD0000;}
-#content .btn{-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;}
+#content .btn{-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;color:#fff}
 #content .btn.btn-primary{background:#E60000;color:#fff;border-color:#E60000;}
 #content .btn.btn-primary:hover{opacity:.8;}
 #content .btn.btn-secondary{background:#333;color:#fff;border-color:#333;}
@@ -25,13 +25,13 @@ a:hover{color:#BD0000;}
 #header .logo svg{width:44px;height:inherit;margin-right:10px;}
 #header .logo svg:after{content:"";position:absolute;width:10%;height:10%;background:#e60000;border-radius:50%;bottom:0;left:0;right:0;transform:scale(0);}
 #header .logo:clicked svg:after{background:transparent;transition:all .5s;transform:scale(1);}
-#header .logo h1{font-size:24px;text-transform:uppercase;margin:0;}
+#header h1{font-size:24px;text-transform:uppercase;margin:0;}
 #header .celebration > *{display:block;margin:0;vertical-align:middle;}
 #header .celebration span{font-size:16px;line-height:1.2;}
 #header .celebration p{font-size:24px;font-family:"VodafoneBold";line-height:1;}
 #header .form-inline{margin:0 23px 0 auto;border:1px solid #ccc;}
 #header .form-inline > *{height:100%;margin:0;border-radius:0;border:none;background:transparent;box-shadow:none;}
-#header .form-inline .btn img{height:30px;}
+#header .form-inline .btn svg{height:30px;}
 #header .form-inline input{min-width:400px;}
 #header .advanced-search .btn{border-radius:0;min-width:250px;margin:0px 73px 0px auto;background-color:#333;}
 #header .advanced-search .btn:hover{opacity:.9;}
@@ -60,3 +60,8 @@ a:hover{color:#BD0000;}
 #footer .nav .nav-link{display:inline-block;height:60px;line-height:60px;padding:0 20px;color:#333333;}
 #footer .nav .nav-link:hover{color:#E60000;}
 .st0{fill-rule:evenodd;clip-rule:evenodd;fill:#E60000;}
+.material{overflow: hidden;box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);transition: all 0.2s cubic-bezier(.25, .8, .25, 1);}
+.material:hover{box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, .7);}
+.material:active{box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);}
+.material:after{content: "";position: relative;width: 4vw;height: 4vw;top: 45%;left: 48%;background: rgba(255, 4, 4, 0.1);border-radius: 50%;transform: scale(0);overflow: hidden;}
+.material:active:after{background: transparent;transition: all 0.5s;transform: scale(9);}
