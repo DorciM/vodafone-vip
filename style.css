@@ -20,9 +20,11 @@ a:hover{color:#BD0000;}
 #content .btn.btn-secondary{background:#333;color:#fff;border-color:#333;}
 #content .btn.btn-secondary:hover{opacity:.9;}
 #header{display:flex;width:100%;height:44px;padding:20px 0;justify-content:center;box-sizing:content-box;border-bottom:1px solid #ccc;background:white;}
-#header .logo{display:block;height:44px;padding:0 20px;margin-right:20px;border-right:1px solid #ccc;}
+#header .logo{display:block;height:44px;padding:0 20px;margin-right:20px;border-right:1px solid #ccc;transition:all .2s;background:none;border:none;outline:0}
 #header .logo > *{display:inline-block;vertical-align:middle;}
-#header .logo img{width:44px;height:inherit;margin-right:10px;}
+#header .logo svg{width:44px;height:inherit;margin-right:10px;}
+#header .logo svg:after{content:"";position:absolute;width:10%;height:10%;background:#e60000;border-radius:50%;bottom:0;left:0;right:0;transform:scale(0);}
+#header .logo:clicked svg:after{background:transparent;transition:all .5s;transform:scale(1);}
 #header .logo h1{font-size:24px;text-transform:uppercase;margin:0;}
 #header .celebration > *{display:block;margin:0;vertical-align:middle;}
 #header .celebration span{font-size:16px;line-height:1.2;}
@@ -57,3 +59,4 @@ a:hover{color:#BD0000;}
 #footer .nav{align-items:center;justify-content:center;}
 #footer .nav .nav-link{display:inline-block;height:60px;line-height:60px;padding:0 20px;color:#333333;}
 #footer .nav .nav-link:hover{color:#E60000;}
+.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#E60000;}

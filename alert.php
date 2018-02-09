@@ -18,7 +18,7 @@ if(!(isset($_GET["function"])))
  $query1.=") ORDER BY ".$CONFIG['riaszt_tabla'].".azon DESC";
  $result=mssql_query($query1) or die();
  $issues=array();$previous=0;while($record=mssql_fetch_row($result)){if($record[0]!=$previous){$issues[]=$record;$previous=$record[0];}}
- if(($currentadmin[2]==2)||($currentadmin[2]==3)&&(belsos())){$admin=true;array_push($issues,$admin)}
+ if(($currentadmin[2]==2)||($currentadmin[2]==3)&&(belsos())){$admin=true;array_push($issues,$admin);}
  echo(json_encode($issues));
 }
 
@@ -26,11 +26,11 @@ if(!(isset($_GET["function"])))
 if((isset($_GET["function"]))&&($_GET["function"]=="grouplist")&&(($currentadmin[2]==2)||($currentadmin[2]==3))&&(belsos()))
 {$result=mssql_query("SELECT azon,megj_nev FROM ccportal.dbo.csrdw_usergroups WHERE aktiv=1 AND azon<>1 AND azon<>4",$connection) or die();
  $groups=array();
- while($record=mssql_fetch_array($result)){array_push($groups,$record)} die();
+ while($record=mssql_fetch_array($result)){array_push($groups,$record);} die();
 }
 
 // INSERT ALERT
-if((isset($_GET["function"]))&&($_GET["function"]=="add")&&(($currentadmin[2]==2)||($currentadmin[2]==3))&&(belsos())&&(isset($_GET["subject"])&&($_GET["subject"]!=""))
+if((isset($_GET["function"]))&&($_GET["function"]=="add")&&(($currentadmin[2]==2)||($currentadmin[2]==3))&&(belsos())&&(isset($_GET["subject"])&&($_GET["subject"]!="")))
 {$result=mssql_query("SELECT MAX(azon) FROM ".$CONFIG['riaszt_tabla']) or die();
  $lastalert=mssql_fetch_row($result);
  mssql_query("INSERT INTO ".$CONFIG['riaszt_tabla']." VALUES (".$lastalert[0]++.",'".getlogin()."','".wordwrap($_GET["subject"],30,"\n",true)."','".date('Y-m-d')."','".date('H:i:s')."',1,'".$_GET['details']."',null,null,null)") or die();
@@ -50,8 +50,8 @@ if((isset($_GET["function"]))&&($_GET["function"]=="details")&&isset($_GET["id"]
  $groups=array();
  $usergroups=mssql_query("SELECT megj_nev FROM csrdw_riaszt_usergroup LEFT JOIN dbo.csrdw_usergroups ON dbo.csrdw_usergroups.azon=csrdw_riaszt_usergroup.usergroup_id WHERE (dbo.csrdw_riaszt_usergroup.riaszt_id =".$_GET['id'].") AND (dbo.csrdw_riaszt_usergroup.aktiv=1) AND (dbo.csrdw_usergroups.aktiv=1)") or die("Invalid query");
  if(mssql_num_rows($usergroups)>0){while($grouprecord=mssql_fetch_row($usergroups)){array_push($groups,trim($grouprecord[0]));}}
- array_push($details,$groups)
- if(($currentadmin[2]==2)||($currentadmin[2]==3)&&(belsos())){$admin=true;array_push($details,$admin)}
+ array_push($details,$groups);
+ if(($currentadmin[2]==2)||($currentadmin[2]==3)&&(belsos())){$admin=true;array_push($details,$admin);}
  echo(json_encode($details));
 }
  else{echo(json_encode($details='Nincs ilyen azonosítójú riasztás, vagy nincs jogosultságod a megtekintéséhez.'));}die();

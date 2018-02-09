@@ -1,4 +1,4 @@
-<?php header("Content-Type: application/json; charset=UTF-8");
+<?php header("Content-Type:application/json;charset=UTF-8");header("Expires:Sat, 1 Jan 2000 00:00:00 GMT");header("Last-Modified:".gmdate("D, d M Y H:i:s")." GMT");header("Cache-Control:no-store,no-cache,must-revalidate");header("Cache-Control:post-check=0,pre-check=0",false);header("Pragma:no-cache");
 require('config.inc.php');
 $CONFIG['sajatlink_table']="[CCPortal].[dbo].[sajatlink_new]";
 $CONFIG['csrdw_menu_table']="[CCPortal].[dbo].[csrdw_menu]";
@@ -26,4 +26,16 @@ if((isset($_GET['view']))&&($_GET['view']=="favorites"))
  $favorites=array();
  if(mssql_num_rows($links)){$index=0;while(($record=mssql_fetch_assoc($links))&&($index<10)){if($record['tipus']==1){array_push($favorites,$record['nev']);}}}
  echo json_encode($favorites);
+}
+
+if(isset($_GET['log']))
+{mssql_query("INSERT dbo.logger(datum,login,oldal) VALUES ('".date('Y-m-d H:i:s')."','".getlogin()."','VIP megnyitasa'+'".($_GET['log']==2)?" napibol":""."')") or die();
+};
+
+if(isset($_GET['nameday']))
+{$CONFIG['nevnaptar_table']="[CCPortal].[dbo].[nevnaptar]";
+ $result=mssql_query("SELECT [azon],[nev],[datum] FROM ".$CONFIG['nevnaptar_table']." WHERE [datum]='".date('m-d')."' ORDER BY nev",dbconnect()) or die();
+ $names=array();
+ while($record=mssql_fetch_assoc($result)){array_push($names,$record["nev"]);}
+ echo(json_encode($names));
 }?>

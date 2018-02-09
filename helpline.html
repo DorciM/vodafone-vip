@@ -40,26 +40,18 @@
     </form>
 </div>
 <div style="width:100%;" id="included_hl_top_questions"><?php include("hl_top_questions/hl_top_questions_include.php");?></div>
-<script src="jquery-1.12.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script>
-request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
-request.onreadystatechange=function()
-{if(this.readyState==4&&this.status==200)
-{console.log(this.responseText);
- topics=["1","2","3","4"];
- //topics=JSON.parse(this.responseText);
- topics.map(function(topic){option=document.getElementsByTagName("select")[0].appendChild(document.createElement("option"));topic.setAttibute("value",topic['id']+">"+topic['tema']);});
+window.onload=function()
+{request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+ request.open("GET","helpline.php",true);
+ request.onreadystatechange=function(){if(this.readyState==4&&this.status==200){/*JSON.parse(this.responseText)*/topics=[{id:"1",tema:"a"},{id:"2",tema:"b"},{id:"3",tema:"c"},{id:"4",tema:"d"}];topics.map(function(topic){option=document.getElementsByTagName("select")[0].appendChild(document.createElement("option"));option.setAttribute("value",topic['id']);option.innerHTML=topic['tema'];});}}
+ request.send();
 }
+function hl_top_questions_smart_search(){
+ request.open("POST","hl_top_questions/hl_top_questions_include.php",true);
+ request.setRequestHeader('Content-Type','application/json');
+ request.onreadystatechange=function(){if(this.readyState==4&&this.status==200){document.getElementById("included_hl_top_questions").innerHTML=this.responseText}}
+ request.send(JSON.stringify({hl_keresoszo:document.getElementById("keyword").value,hl_tema:document.getElementById("topics").value,hl_sorszam:document.getElementById("number").value,hl_datum_tol:document.getElementById("startDate").value,hl_datum_ig:document.getElementById("endDate").value,ajax:1}));
 }
-request.open("GET","helpline.php",true);
-request.send();
-
-function hl_top_questions_smart_search(){$.ajax(
-{type:'POST',
- url:'hl_top_questions/hl_top_questions_include.php',
- data:{'hl_keresoszo':$('#hl_keresoszo').val(),'hl_tema':$('#hl_tema').val(),'hl_sorszam':$('#hl_sorszam').val(),'hl_datum_tol':$('#hl_datum_tol').val(),'hl_datum_ig':$('#hl_datum_ig').val(),'ajax':1},
- error:function(msg){alert('Hiba az ajax kéréskor');},
- success:function(msg){$("#included_hl_top_questions").html(msg);}
-});}
-
 </script>
