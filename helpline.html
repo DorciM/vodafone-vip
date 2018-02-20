@@ -1,51 +1,29 @@
-<div class="helpline-form pb-4 material">
-    <h2>HelpLine top információk</h2>
-    <form>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="keyword">Keresőszó</label>
-                    <input type="text" class="form-control" id="keyword" onKeyUp="hl_top_questions_smart_search()">
-                </div>
-                <div class="form-group">
-                    <label for="number">Sorszám</label>
-                    <input type="text" class="form-control" id="number">
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="topics">Témák</label>
-                    <select class="form-control" id="topics" onChange="hl_top_questions_smart_search()">
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="startDate">Kezdő dátum</label>
-                    <input type="text" class="form-control datepicker" id="startDate" onKeyUp="hl_top_questions_smart_search()">
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="endDate">Záró dátum</label>
-                    <input type="text" class="form-control datepicker" id="endDate" onKeyUp="hl_top_questions_smart_search()">
-                </div>
-            </div>
-        </div>
-        <div class="text-right">
-            <button type="submit" class="btn btn-lg btn-primary">Küldés</button>
-        </div>
-    </form>
-</div>
-<div style="width:100%;" id="included_hl_top_questions"><?php include("hl_top_questions/hl_top_questions_include.php");?></div>
+<div id="helpline" class="material ripple"></div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script>
+inputs={keyword:{label:"Keresőszó",type:"input"},number:{label:"Sorszám",type:"input"},topics:{label:"Téma",type:"select"},startDate:{label:"Kezdődátum",type:"input"},endDate:{label:"Záródátum",type:"input"}}
 window.onload=function()
-{request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+{helpline=document.getElementById("helpline").appendChild(document.createElement("div"));
+ title=helpline.appendChild(document.createElement("h2")).innerHTML="HelpLine top információk";
+ form=helpline.appendChild(document.createElement("form"));
+ for(input in inputs)
+{record=form.appendChild(document.createElement("div"));
+ field=record.appendChild(document.createElement(inputs[input]["type"]));field.setAttribute("type","text");field.setAttribute("id",input);field.setAttribute("onKeyUp","hl_top_questions_smart_search()");
+ label=record.appendChild(document.createElement("label"));label.setAttribute("for",input);label.innerHTML=inputs[input]["label"];
+}
+ submit=form.appendChild(document.createElement("button"));submit.setAttribute("type","submit");
+ results=helpline.appendChild(document.createElement("div"));results.setAttribute("id","included_hl_top_questions")
+ request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
  request.open("GET","helpline.php",true);
- request.onreadystatechange=function(){if(this.readyState==4&&this.status==200){/*JSON.parse(this.responseText)*/topics=[{id:"1",tema:"a"},{id:"2",tema:"b"},{id:"3",tema:"c"},{id:"4",tema:"d"}];topics.map(function(topic){option=document.getElementsByTagName("select")[0].appendChild(document.createElement("option"));option.setAttribute("value",topic['id']);option.innerHTML=topic['tema'];});}}
+ request.onreadystatechange=function()
+{if(this.readyState==4&&this.status==200)
+{/*JSON.parse(this.responseText)*/topics=[{id:"0",tema:""},{id:"1",tema:"ingyombingyom"},{id:"2",tema:"bingyon"},{id:"3",tema:"tálibe"},{id:"4",tema:"d"}];
+ select=document.getElementsByTagName("select")[0];
+ topics.map(function(topic){option=select.appendChild(document.createElement("option"));option.setAttribute("value",topic['id']);option.innerHTML=topic['tema'];});
+ select.childNodes[0].setAttribute("selected","true");select.childNodes[0].setAttribute("disabled","true");select.childNodes[0].setAttribute("hidden","true");;
+}
+}
  request.send();
 }
 function hl_top_questions_smart_search(){
@@ -54,4 +32,5 @@ function hl_top_questions_smart_search(){
  request.onreadystatechange=function(){if(this.readyState==4&&this.status==200){document.getElementById("included_hl_top_questions").innerHTML=this.responseText}}
  request.send(JSON.stringify({hl_keresoszo:document.getElementById("keyword").value,hl_tema:document.getElementById("topics").value,hl_sorszam:document.getElementById("number").value,hl_datum_tol:document.getElementById("startDate").value,hl_datum_ig:document.getElementById("endDate").value,ajax:1}));
 }
+$('.datepicker').datepicker();
 </script>
