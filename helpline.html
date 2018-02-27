@@ -1,10 +1,10 @@
-<div id="helpline" class="material ripple"></div>
+<div id="helpline"></div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 <script>
 inputs={keyword:{label:"Keresőszó",type:"input"},number:{label:"Sorszám",type:"input"},topics:{label:"Téma",type:"select"},startDate:{label:"Kezdődátum",type:"input"},endDate:{label:"Záródátum",type:"input"}}
 window.onload=function()
-{helpline=document.getElementById("helpline").appendChild(document.createElement("div"));
+{helpline=document.getElementById("helpline");
  title=helpline.appendChild(document.createElement("h2")).innerHTML="HelpLine top információk";
  form=helpline.appendChild(document.createElement("form"));
  for(input in inputs)
@@ -15,10 +15,11 @@ window.onload=function()
  submit=form.appendChild(document.createElement("button"));submit.setAttribute("type","submit");
  results=helpline.appendChild(document.createElement("div"));results.setAttribute("id","included_hl_top_questions")
  request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
- request.open("GET","helpline.php",true);
+ request.open("GET","rest.php?topics",true);
  request.onreadystatechange=function()
 {if(this.readyState==4&&this.status==200)
-{/*JSON.parse(this.responseText)*/topics=[{id:"0",tema:""},{id:"1",tema:"ingyombingyom"},{id:"2",tema:"bingyon"},{id:"3",tema:"tálibe"},{id:"4",tema:"d"}];
+{topics=JSON.parse(this.responseText);console.log(topics);
+ topics=[{id:"0",tema:""},{id:"1",tema:"ingyombingyom"},{id:"2",tema:"tálibe"},{id:"3",tema:"tutálibe"},{id:"4",tema:"málibe"}];
  select=document.getElementsByTagName("select")[0];
  topics.map(function(topic){option=select.appendChild(document.createElement("option"));option.setAttribute("value",topic['id']);option.innerHTML=topic['tema'];});
  select.childNodes[0].setAttribute("selected","true");select.childNodes[0].setAttribute("disabled","true");select.childNodes[0].setAttribute("hidden","true");;
@@ -32,5 +33,5 @@ function hl_top_questions_smart_search(){
  request.onreadystatechange=function(){if(this.readyState==4&&this.status==200){document.getElementById("included_hl_top_questions").innerHTML=this.responseText}}
  request.send(JSON.stringify({hl_keresoszo:document.getElementById("keyword").value,hl_tema:document.getElementById("topics").value,hl_sorszam:document.getElementById("number").value,hl_datum_tol:document.getElementById("startDate").value,hl_datum_ig:document.getElementById("endDate").value,ajax:1}));
 }
-$('.datepicker').datepicker();
+//$('.datepicker').datepicker();
 </script>

@@ -5,10 +5,10 @@
 <title>VIP Grid</title>
 <!--link rel="stylesheet" href="normalize.css"-->
 <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.standalone.min.css">
+<!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.standalone.min.css"-->
 <link rel="stylesheet" href="style.css">
 </head>
-<body id="main">
+<body>
 <script type="text/javascript" src="polyfill.js"></script>
 <script type="text/javascript">
 
@@ -20,18 +20,18 @@ addresses.portals.map(function(portal,index){gate=portals.appendChild(document.c
 /*gate.appendChild(document.createElement("img")).setAttribute("src","images/portal_"+(index+1)+".png")*/})
 
 // HEADER
-header=document.body.appendChild(document.createElement("header"));header.setAttribute("id","header");header.setAttribute("class","material ripple");
+header=document.body.appendChild(document.createElement("header"));header.setAttribute("id","header");header.setAttribute("class","material ripple");header.setAttribute("for","navigation");
 // LOGO
 logo=header.appendChild(document.createElement("div"));logo.setAttribute("class","logo");
-icon=logo.appendChild(document.createElement("label"));icon.setAttribute("for","portals");icon.setAttribute("class","icon");icon.onclick="function(){source(helpline)}";
+icon=logo.appendChild(document.createElement("label"));icon.setAttribute("for","portals");icon.setAttribute("class","icon");icon.onclick=function(){source(helpline)};
 /*IE8 svg*/navigator.userAgent.toLowerCase().indexOf('msie')!=-1?(function(){image=icon.appendChild(document.createElement("img"));image.setAttribute("src","images/vodafone-logo.svg")}):(function(){image=icon.appendChild(document.createElementNS('http://www.w3.org/2000/svg',"svg"));image.setAttribute("class","material image");image.setAttribute("x","0px");image.setAttribute("y","0px");image.setAttribute("viewBox","0 0 159 152");image.setAttribute("xml:space","preserve");shape=image.appendChild(document.createElementNS('http://www.w3.org/2000/svg',"path"));shape.setAttribute("class","logoshape");shape.setAttribute("d","M109.8,5.9C95.8,9,85.2,21.4,85.2,36.3c0,0.3,0.1,0.7,0.1,1c22.1,4.7,33.3,19.6,33.3,39.3 c0,22.1-18.1,40-40.2,40c-22.1,0-42.8-18.4-42.8-45.8c0-33.4,28.6-64.7,69.4-65.7c0.7,0,1.9,0,3.1,0.1C99.2,1.9,89.4,0,79.2,0 C35.5,0,0,34.3,0,76.7c0,42.3,35.5,76.7,79.2,76.7c43.8,0,79.2-34.3,79.2-76.7C158.5,44.8,138.4,17.5,109.8,5.9L109.8,5.9z")})()
 label=logo.appendChild(document.createElement("div"));
 title=label.appendChild(document.createElement("h1"));title.innerHTML=("VIP Portál");
 nameday=label.appendChild(document.createElement("div"));nameday.setAttribute("class","text");nameday.appendChild(document.createTextNode(new Date().toLocaleDateString().replace(/[0-9]{4}\./,"").replace(". ","/")+" "));
 request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
-request.open("GET","personal.php?nameday=true",true);
-request.onreadystatechange=function(){if(this.readyState==4&&this.status==200){names=JSON.parse(this.responseText);console.log("names: ");console.log(names);names.map(function(name,index){if(name){nameday.appendChild(document.createTextNode(name+(index<names.length-1?", ":"")))}})}};
-//request.send();
+request.open("GET","rest.php?nameday=true",true);
+request.onreadystatechange=function(){if(this.readyState==4&&this.status==200){response=JSON.parse(this.responseText);console.log(response);response["names"].map(function(name,index,names){if(name){nameday.appendChild(document.createTextNode(name+(index<names.length-1?", ":"")))}})}};
+request.send();
 
 // SEARCH
 search=header.appendChild(document.createElement("form"));search.setAttribute("class","search");search.setAttribute("action","search.php");search.setAttribute("method","post");search.setAttribute("target","workspace");search.onsubmit="function(){document.body.style.cursor='wait';workspace.document.body.style.cursor='wait'}";
@@ -39,7 +39,7 @@ advanced=search.appendChild(document.createElement("a"));advanced.setAttribute("
 advanced.onclick=function()
 {request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
  request.open("GET","akt2.php",true);
- request.onreadystatechange=function(){media=document.createElement("html");module.replaceChild(media,document.body.getElementsByTagName("html")[0]);media.innerHTML="MISSING SOURCE";};
+ request.onreadystatechange=function(){media=document.createElement("html");source(media);media.innerHTML="MISSING SOURCE";};
  request.send();
 }
 quick=search.appendChild(document.createElement("div"));quick.setAttribute("class","negative");
@@ -51,26 +51,96 @@ line=shape.appendChild(document.createElementNS('http://www.w3.org/2000/svg',"li
 input=quick.appendChild(document.createElement("input"));input.setAttribute("type","text");input.setAttribute("placeholder","Gyorskeresés");input.setAttribute("name","keyword");
 
 // ALERTS
-toggle=header.appendChild(document.createElement("input"));toggle.setAttribute("type","checkbox");toggle.setAttribute("id","alerts");toggle.checked=true;
+//toggle=header.appendChild(document.createElement("input"));toggle.setAttribute("type","checkbox");toggle.setAttribute("id","alerts");toggle.checked=true;
 maintenance=header.appendChild(document.createElement("div"));maintenance.setAttribute("class","maintenance")
-notification=maintenance.appendChild(document.createElement("label"));notification.setAttribute("for","alerts");notification.setAttribute("class","notification material");/*IE8 check*/var alerts=document.createElement("div");
+//notification=maintenance.appendChild(document.createElement("label"));notification.setAttribute("for","alerts");notification.setAttribute("class","notification material");
+/*IE8 debug*/var alerts=document.createElement("div");
 alerts=maintenance.appendChild(alerts);alerts.setAttribute("class","alerts negative");
 request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
-request.open("GET","alert.php?",true);
+request.open("GET","rest.php?function=alertlist",true);
 request.onreadystatechange=function()
 {if(this.readyState==4&&this.status==200)
-{issues={alerts:["Papíralapú számlák kézbesítése késik","BD váltás internet ÁFA változás miatt sadiuhas d wiud iasdiu hasiud iuqw d","Vodafone honlap nem működik"]};console.log("alerts: ");//console.log(JSON.parse(this.responseText));/*issues=JSON.parse(this.responseText);*/
- notification.innerHTML=issues.alerts.length;
- issues.alerts.map(function(notice){/*IE8*/var alert=document.createElement("div");alert=alerts.appendChild(alert);alert.setAttribute("class","alert");alert.innerHTML=notice});
- if(issues.admin){form=document.createElement("link");form.setAttribute("href","alert_form.html");adder=alerts.appendChild(document.createElement("div"));adder.setAttribute("class","alert");adder.innerHTML="Create";adder.onclick=function(){form.show()}};
+{issues=JSON.parse(this.responseText);console.log(issues);
+ //issues={alerts:["Papíralapú számlák kézbesítése késik","BD váltás internet ÁFA változás miatt","Vodafone honlap nem működik","Van egy kis gond"]};//notification.innerHTML=issues.alerts.length;
+ issues.alerts.map(function(notice)
+{/*IE8*/var alert=document.createElement("div");
+ alert=alerts.appendChild(alert);alert.setAttribute("class","alert");alert.setAttribute("id",notice[0]);alert.innerHTML=notice;
+ //ALERT DETAILS
+ card=document.createElement("div");
+ alert.onclick=function()
+{request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+ request.open("GET","rest.php?function=details&id="+this.id,true);
+ request.onreadystatechange=function()
+{if(this.readyState==4&&this.status==200)
+{console.log(this.responseText);
+ response=JSON.parse(this.responseText);
+ response["details"].map(function(detail){card.appendChild(document.createTextNode(detail))});
+ if(response["admin"]){terminator=card.appendChild(document.createElement("button"));terminator.href="rest.php?function=delete&id="+response['details'][0];terminator.setAttribute("class","button material");terminator.innerHTML="Delete";};
+ source(card);
+};
+};
+ request.send();
+}
+});
+ // ALERT EDITOR
+ if(issues.admin){creator=alerts.appendChild(document.createElement("div"));creator.setAttribute("class","alert");
+ creator.onclick=function()
+{request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+ request.open("GET","rest.php?function=grouplist",true);
+ request.onreadystatechange=function()
+{if(this.readyState==4&&this.status==200)
+{alertform=document.createElement("form");
+ hidden=alertform.appendChild(document.createElement("input"));hidden.setAttribute("type","hidden");hidden.setAttribute("name","function");hidden.setAttribute("value","add");
+ title=alertform.appendChild(document.createElement("input"));title.setAttribute("type","text");title.setAttribute("placeholder","Cím");title.setAttribute("name","subject");title.setAttribute("id","subject");title.setAttribute("maxlength","100");
+ text=alertform.appendChild(document.createElement("textarea"));hidden.setAttribute("name","details");
+ alertform.appendChild(document.createTextNode("A következő csoportok számára legyen látható (Ha egyet sem jelölsz be, mindenki látni fogja.):"))
+ console.log(this.responseText);
+ response=JSON.parse(this.responseText);
+ response["groups"].map(function(group){checkbox=alertform.appendChild(document.createElement("input"));checkbox.setAttribute("type","checkbox");checkbox.innerHTML=group});
+ trigger=alertform.appendChild(document.createElement("input"));trigger.setAttribute("type","submit");
+ source(alertform);
+ document.getElementById('subject').focus();
+}
+}
+ request.send();
+}
+};
  setTimeout(alerts.scrollTop=alerts.scrollHeight,1000);
 }
 }
 request.send();
 
+// ALERTS TRACKING
+var first=true;
+var previous="";
+past=new Array();
+updates=new Array();
+function refresh()
+{var d=new Date();
+ request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+ request.open("GET","rest.php?ajax="+d.getTime(),true);//request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=ISO-8859-2");
+ request.onreadystatechange=function()
+{if(request.readyState==4)
+{response=JSON.parse(request.responseText);console.log(response);
+ start=alerts.appendChild(document.createElement("div"));start.setAttribute("class","alert");start.innerHTML=response[0];
+ included=response["alerts"].map(function(update){if(!past.includes(update))return update})
+ excluded=past.map(function(last){if(!response["alerts"].includes(last))return last})
+if(previous!=response[0]&&first)
+{alert("bekerült: "+included+" kikerült: "+excluded);
+ previous=response[0];
+ first=false;
+ past=updates;
+ for(record in response){past.push(record[0]);}
+ setTimeout(refresh,300000);
+}
+}
+};
+ request.send(null);
+};
+setTimeout(refresh,5000);
 
 // BODY
-/*IE8 check*/var main=document.createElement("main");
+/*IE8 debug*/var main=document.createElement("main");
 main=document.body.appendChild(main);
 content=main.appendChild(document.createElement("div"));content.setAttribute("id","content");
 
@@ -78,27 +148,41 @@ content=main.appendChild(document.createElement("div"));content.setAttribute("id
 document.cookie='vip=2';
 document.body.onunload=function(){document.cookie="vip=1; expires=Fri, 31 Dec 1999 23:59:59 GMT;";};
 
-// NAVIGATION
-navigation=content.appendChild(document.createElement("form"));navigation.setAttribute("class","menu navigation");
+// FAVORITES
+personal=content.appendChild(document.createElement("div"));personal.setAttribute("class","menu favorites")//personal.appendChild(document.createElement("h2")).innerHTML="Saját top linkek";
 request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
-request.open("GET","menu.php",true);
+request.open("GET","rest.php?view=favorites",true);
 request.onreadystatechange=function()
 {if(this.readyState==4&&this.status==200)
-{//categories=JSON.parse(this.responseText);console.log("menu: ");console.log(categories);
+{var favorites=JSON.parse(this.responseText);console.log(favorites);
+ favorites=["Üzletkereső","Amdocs mobile","Meghatalmazás","Csiribiri"];
+ favorites.map(function(link){node=personal.appendChild(document.createElement("a"));node.setAttribute("class","button dori");node.innerHTML=link});
+}
+}
+request.send();
+
+// NAVIGATION
+toggle=content.appendChild(document.createElement("input"));toggle.setAttribute("type","checkbox");toggle.setAttribute("id","navigation");
+navigation=content.appendChild(document.createElement("form"));navigation.setAttribute("class","menu navigation");
+request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
+request.open("GET","rest.php?menu",true);
+request.onreadystatechange=function()
+{if(this.readyState==4&&this.status==200)
+{categories=JSON.parse(this.responseText);console.log(categories);
  categories=["prepaid","postpaid","soho","corporate","links","other"];
- options={service:{alias:"Szolgáltatás",items:[{title:"Autópálya-matrica",scope:[1,2]},{title:"Coca-Cola Free SIM",scope:[1]},{title:"Díjcsomag váltás",scope:[1]},{title:"EGY+EGY GYIK",scope:[1]},{title:"Egyenleginformáció",scope:[1]},{title:"Fix-tárcsázás",scope:[1,2]},{title:"Gyermekzár",scope:[1,2]},{title:"Hangposta",scope:[1]},{title:"CUG aktiválása",scope:[2]}]},billing:{alias:"Számlázás",items:[{title:"Feltöltési módok",scope:[1]},{title:"Hívásrészletező és áfás számla igénylése",scope:[1]},{title:"Prepaid opciók felhasználási sorrendje",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Hang",scope:[1]},{title:"Átadási terv",scope:[2]},{title:"Behajtás(Collection) portál",scope:[2]},{title:"Csekkrendező",scope:[2]},{title:"Banki SMS nem érekezik",scope:[2]},{title:"Billing Kisokos",scope:[2]}]},flows:{alias:"Folyamatok",items:[{title:"Alkalmazás oldali hibabejelentés",scope:[1,2]},{title:"Tréning Portál",scope:[1,2]}]},contract:{alias:"Szerződés",items:[{title:"Adatkezelési hozzájárulások",scope:[1,2]},{title:"Instant kódok",scope:[1]},{title:"Meghatalmazás",scope:[1]},{title:"Számhordozás (mobil)",scope:[1]},{title:"FU rögzítés szabályai",scope:[2]},{title:"Apolló státuszok",scope:[2]},{title:"14 napos elállás",scope:[2]}]},promo:{alias:"Akció",items:[{title:"Retention ajánlatok",scope:[1,2]},{title:"Retention portál",scope:[1,2]}]},roaming:{alias:"Külföld",items:[{title:"Globális számok",scope:[1,2]},{title:"Nemzetközi díjak",scope:[1,2]},{title:"Nemzetközi telefonszámtartományok, országkódok",scope:[1,2]},{title:"Roaming",scope:[1,2]},{title:"SMS interworking",scope:[1,2]}]},complaint:{alias:"Panasz",items:[{title:"Kompenzáció kezelése",scope:[1,2]},{title:"Panaszkezelési segédletek",scope:[1,2]},{title:"Billing Complaint Handling Segédanyagok",scope:[1,2]},{title:"Egyéb szolgáltatások",scope:[1,2]}]},links:{alias:"Linkek",items:[{title:"1SF"},{title:"Adatbázisok folder"},{title:"Amdocs Collection"},{title:"Amdocs Mobile"}]},other:{alias:"Egyéb",items:[{title:"Aktuális ÁSZF a VIP-en"},{title:"Árlista a honlapon"},{title:"ÁSZF és közlemények"},{title:"Beazonosítás és információ küldés folyamata"}]}};
+ options={service:{alias:"Szolgáltatás",items:[{title:"Autópálya-matrica",scope:[1,2]},{title:"Coca-Cola Free SIM",scope:[1]},{title:"Díjcsomag váltás",scope:[1]},{title:"EGY+EGY GYIK",scope:[1]},{title:"Egyenleginformáció",scope:[1]},{title:"Fix-tárcsázás",scope:[1,2]},{title:"Gyermekzár",scope:[1,2]},{title:"Hangposta",scope:[1]},{title:"CUG aktiválása",scope:[2]}]},billing:{alias:"Számlázás",items:[{title:"Feltöltési módok",scope:[1]},{title:"Hívásrészletező és áfás számla igénylése",scope:[1]},{title:"Prepaid opciók felhasználási sorrendje",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Adat",scope:[1]},{title:"Tarifacsomagok - Hang",scope:[1]},{title:"Átadási terv",scope:[2]},{title:"Behajtás(Collection) portál",scope:[2]},{title:"Csekkrendező",scope:[2]},{title:"Banki SMS nem érekezik",scope:[2]},{title:"Billing Kisokos",scope:[2]}]},flows:{alias:"Folyamatok",items:[{title:"Alkalmazás oldali hibabejelentés",scope:[1,2]},{title:"Tréning Portál",scope:[1,2]}]},contract:{alias:"Szerződés",items:[{title:"Adatkezelési hozzájárulások",scope:[1,2]},{title:"Instant kódok",scope:[1]},{title:"Meghatalmazás",scope:[1]},{title:"Számhordozás (mobil)",scope:[1]},{title:"FU rögzítés szabályai",scope:[2]},{title:"Apolló státuszok",scope:[2]},{title:"14 napos elállás",scope:[2]}]},promo:{alias:"Akció",items:[{title:"Retention ajánlatok",scope:[1,2]},{title:"Retention portál",scope:[1,2]}]},roaming:{alias:"Külföld",items:[{title:"Globális számok",scope:[1,2]},{title:"Nemzetközi díjak",scope:[1,2]},{title:"Nemzetközi telefonszámtartományok, országkódok",scope:[1,2]},{title:"Roaming",scope:[1,2]},{title:"SMS interworking",scope:[1,2]}]},complaint:{alias:"Panasz",items:[{title:"Kompenzáció kezelése",scope:[1,2]},{title:"Panaszkezelési segédletek",scope:[1,2]},{title:"Billing Complaint Handling Segédanyagok",scope:[1,2]},{title:"Egyéb szolgáltatások",scope:[1,2]}]},links:{alias:"Linkek",items:[{title:"1SF"},{title:"Adatbázisok folder"},{title:"Amdocs Collection"},{title:"Amdocs Mobile"}]},other:{alias:"Egyéb",items:[{title:"Aktuális ÁSZF a VIP-en"},{title:"Árlista a honlapon"},{title:"ÁSZF és közlemények"},{title:"Beazonosítás és információ küldés folyamata"}]}};
  categories.map(function(category,index)
 {toggle=navigation.appendChild(document.createElement("input"));toggle.setAttribute("type","radio");toggle.setAttribute("name","category");toggle.setAttribute("id",category);
- label=navigation.appendChild(document.createElement("label"));label.setAttribute("class","button ripple");label.setAttribute("for",category);label.innerHTML=category.charAt(0).toUpperCase()+(category=="soho"?category.slice(1).toUpperCase():category.slice(1));
+ label=navigation.appendChild(document.createElement("label"));label.setAttribute("class","button dori ripple");label.setAttribute("for",category);label.innerHTML=category.charAt(0).toUpperCase()+(category=="soho"?category.slice(1).toUpperCase():category.slice(1));
  menu=navigation.appendChild(document.createElement("div"));menu.setAttribute("class","menu");
  for(option in options)
 {if((option!="promo"&&option!="links"&&option!="other")||(option=="promo"&&category=="postpaid")||option==category)
 {if(category!="links"&&category!="other")
-{label=menu.appendChild(document.createElement("label"));label.setAttribute("class","button");label.setAttribute("for",category+option.charAt(0).toUpperCase()+option.slice(1));label.innerHTML=options[option].alias;
+{label=menu.appendChild(document.createElement("label"));label.setAttribute("class","button dori");label.setAttribute("for",category+option.charAt(0).toUpperCase()+option.slice(1));label.innerHTML=options[option].alias;
 }if((category!="links"&&category!="other")||option==category)
 {chart=label.appendChild(document.createElement("div"));chart.setAttribute("class","menu drop-down")
 }
- options[option].items.map(function(item){if(item["scope"]==undefined||(item["scope"].includes(index+1))){node=chart.appendChild(document.createElement("a"));node.setAttribute("class","button ripple");node.setAttribute("href","#");node.innerHTML=item["title"]}});
+ options[option].items.map(function(item){if(item["scope"]==undefined||(item["scope"].includes(index+1))){node=chart.appendChild(document.createElement("a"));node.setAttribute("class","button dori ripple");node.setAttribute("href","#");node.innerHTML=item["title"]}});
  // if(isset($csoportok)){if($csoportok[0]==""){echo("Mindenki");}else{$cs=1;foreach($csoportok as $csop){if($cs>1){echo(", ");}echo(trim($csop));$cs++;}}} 
  // elseif($record['tipus']==2){content.php?content_id= $myrow['azon']}
 }
@@ -109,31 +193,12 @@ request.onreadystatechange=function()
 };
 request.send();
 
-// FAVORITES
-personal=content.appendChild(document.createElement("div"));personal.setAttribute("class","menu favorites")//personal.appendChild(document.createElement("h2")).innerHTML="Saját top linkek";
-request=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");
-request.open("GET","personal.php?view=favorites",true);
-request.onreadystatechange=function()
-{if(this.readyState==4&&this.status==200)
-{var favorites=["Üzletkereső","1SF","Panaszkezelő","Apolló","Eventus","Készüléktár","Nemzetközi számok","Amdocs mobile","Meghatalmazás","Csiribiri"];console.log("favorites: ");console.log(this.responseText);
- /*favorites=JSON.parse(this.responseText);*/favorites.map(function(link){node=personal.appendChild(document.createElement("a"));node.setAttribute("class","button");node.innerHTML=link});
-}
-}
-request.send();
-
 // WORKSPACE
-module=content.appendChild(document.createElement("div"));module.setAttribute("id","module");module.appendChild(document.createElement("html"));
-source=function(link){console.log(link);module.replaceChild(link.import.documentElement.cloneNode(true),module.getElementsByTagName("html")[0])};
-style=document.createElement("link");style.setAttribute("rel","stylesheet");style.setAttribute("href","helpline.css");document.getElementsByTagName("head")[0].appendChild(style);
-helpline=document.createElement("link");helpline.setAttribute("rel","import");helpline.setAttribute("href","helpline.html");helpline.setAttribute("onload","source(this)");
-document.getElementsByTagName("head")[0].appendChild(helpline);
-module.onmousedown=function drag(event)
-{event=event||window.event;
- target=function(subject){return subject.getAttribute&&subject.getAttribute("id")&&subject.getAttribute("id")=="module"?subject:subject.parentNode?target(subject.parentNode):null}
- target=target(event.target||event.srcElement);
- x=event.clientX;
- document.onmousemove=function(event){event=event||window.event;x-event.clientX}
-};
+workspace=content.appendChild(document.createElement("div"));workspace.setAttribute("id","module");
+link=function(address,type){type=type?type:"import";reference=document.createElement("link");reference.setAttribute("rel",type);reference.setAttribute("href",address);document.getElementsByTagName("head")[0].appendChild(reference);return reference}
+source=function(module){module=module["import"]?module.import.documentElement.childNodes[1].childNodes[0]:module;module.setAttribute("class","material ripple draggable");workspace.childNodes[0]?workspace.replaceChild(module,workspace.childNodes[0]):workspace.appendChild(module);};
+style=link("helpline.css","stylesheet")
+helpline=link("helpline.html");helpline.setAttribute("onload","source(this)");
 
 // FOOTER
 footer=content.appendChild(document.createElement("div"));footer.setAttribute("class","footer material ripple");
@@ -152,25 +217,36 @@ function doWork(menu,almenu,nev)
 }
 
 // CURSOR TRACKING for MATERIAL RIPPLES (bubbling [viz. event propagation] consumption not perfect)
-(document.addEventListener?/*IE8 check*/document.addEventListener:document.attachEvent)((document.attachEvent?"on":"")+'mousedown',function(event)
-{event=event||window.event;
- target=function(subject,recursion=0){console.log(recursion);return subject.getAttribute&&subject.getAttribute("class")&&subject.getAttribute("class").includes("ripple"||"material"||"negative")?subject:subject.parentNode&&recursion<1?target(subject.parentNode,recursion+1):null}
- material=target(event.target||event.srcElement);
+(document.addEventListener?/*IE8 debug*/document.addEventListener:document.attachEvent)((document.attachEvent?"on":"")+'mousedown',function(click)
+{click=click||window.event;
+ material=function(subject,recursion=0){return subject.getAttribute&&subject.getAttribute("class")&&subject.getAttribute("class").includes("ripple"||"material"||"negative")?subject:subject.parentNode&&recursion<2?material(subject.parentNode,recursion+1):null}
+ material=material(click.target||click.srcElement);console.log("material: "+material);
  if(material)
-{material.style.setProperty('--mouse-x',event.offsetX);material.style.setProperty('--mouse-y',event.offsetY);console.log(material.style.cssText)
- setTimeout(function(){material.style.removeProperty('--mouse-x');material.style.removeProperty('--mouse-y');material.style.setProperty("--interfere",0)},1000);
- material.style.removeProperty("--interfere");
+{var x=click.offsetX,y=click.offsetY;material.style.setProperty('--mouse-x',x);material.style.setProperty('--mouse-y',y);console.log("ripple: "+material.style.cssText)
+ setTimeout(function(){if(material.style.getPropertyValue('--mouse-x')==x){material.style.removeProperty('--mouse-x');material.style.removeProperty('--mouse-y');console.log("ripple reset")}},1000);
+};
+ // MOVE/RESIZE ON DRAG
+ draggable=function(subject,recursion=0){return subject.getAttribute&&subject.getAttribute("class")&&subject.getAttribute("class").includes("draggable")?subject:subject.parentNode&&recursion<1?draggable(subject.parentNode,recursion+1):null}
+ draggable=draggable(click.target||click.srcElement);console.log("draggable: "+draggable);
+ if(draggable)
+{startLeft=draggable.offsetLeft-draggable.parentNode.offsetLeft;
+ startTop=draggable.offsetTop-draggable.parentNode.offsetTop;
+ document.onmouseup=function(){document.onmouseup=null;document.onmousemove=null};
+ resize=click.offsetX>(draggable.clientWidth-8)?"horizontal":click.offsetY>(draggable.clientHeight-8)?"vertical":false;
+ document.onmousemove=function(drag)
+{drag=drag||window.event;
+ if(resize=="horizontal"){draggable.style.width=drag.offsetX+"px";console.log("resize: "+resize);}else if(resize){draggable.style.height=drag.offsetY+"px";console.log("resize: "+resize);}
+ else{draggable.style.marginLeft=startLeft+(drag.clientX-click.clientX)+"px",draggable.style.marginTop=startTop+(drag.clientY-click.clientY)+"px";console.log("move: "+startLeft+","+startTop);}
+};
 }
 });
 
 // CURSOR TRACKING FOR ALERTS SCROLL
-//(alerts.addEventListener?/*IE8 check*/alerts.addEventListener:alerts.attachEvent)((alerts.attachEvent?"on":"")+'mousemove',function(event)
+//(alerts.addEventListener?/*IE8 debug*/alerts.addEventListener:alerts.attachEvent)((alerts.attachEvent?"on":"")+'mousemove',function(event)
 /*{event=event||window.event;
  target=event.target||event.srcElement;
  target.style.setProperty('--mouse-y',window.scrollY+event.clientY);console.log(target.style.cssText);
 });*/
-
-
 </script>
 </body>
 </html>

@@ -2,14 +2,14 @@
 @font-face{font-family:'VodafoneLight';src:url('fonts/vodafone-light.eot');src:url('fonts/vodafone-light.eot?#iefix') format('embedded-opentype'), url('fonts/vodafone-light.woff') format('woff'), url('fonts/vodafone-light.ttf') format('truetype'), url('fonts/vodafone-light.svg#svgFontName') format('svg');}
 @font-face{font-family:'VodafoneBold';src:url('fonts/vodafone-bold.eot');src:url('fonts/vodafone-bold.eot?#iefix') format('embedded-opentype'), url('fonts/vodafone-bold.woff') format('woff'), url('fonts/vodafone-bold.ttf') format('truetype'), url('fonts/vodafone-bold.svg#svgFontName') format('svg');}
 input[type="checkbox"],input[type="radio"]{display:none}
-*{margin:0 0 0 0;padding:0 0 0 0;outline:0;font-family:"VodafoneLight";border:0;background:none;-webkit-font-smoothing:antialiased;transition:all 0.2s;transition: all 200ms ease-in;-webkit-transition:all 200ms ease-in;-ms-transition:all 200ms ease-in;-moz-transition:all 200ms ease-in;}
-html{background-color:#ececec}
+*{margin:0 0 0 0;padding:0 0 0 0;outline:0;font-family:"Arial";border:0;background:none;-webkit-font-smoothing:antialiased;transition:all 0.2s;transition: all 200ms ease-in;-webkit-transition:all 200ms ease-in;-ms-transition:all 200ms ease-in;-moz-transition:all 200ms ease-in;}
+body>*{background-color:#ececec}
 h1{font-size:24px;text-transform:uppercase;margin:0;overflow:hidden;white-space:nowrap}
 a{text-decoration:none;color:rgb(202, 0, 0)}
 a:hover{text-shadow:0 0 5px #a40000;}
 
-header{position:relative;width:100%;top:0;height:4em;background:white;padding-top:15px}
-.logo{display:inline-block;height:3em;width:25%;margin:10px;}
+header{position:absolute;width:100%;top:0;height:4em;background:white;}
+.logo{display:inline-block;height:3em;width:25%;margin:10px;white-space:nowrap}
 .logo div{display:inline-block;vertical-align:top}
 .logo .icon svg{height:100%;border-radius:100%;margin-right:10px}
 .logo .icon svg .logoshape{fill-rule:evenodd;clip-rule:evenodd;fill:#E60000;}
@@ -20,51 +20,54 @@ header{position:relative;width:100%;top:0;height:4em;background:white;padding-to
 .search svg{float:left;height:1em;width:1.3em}
 .search input{width:100%;text-align:center;font-size:.9em;background-color:transparent;}
 
-#alerts:checked+div{width:30%;height:3em;transition:all 1s}
-#alerts:checked+div>.notification{top:3.4em;left:-.7em;}
-.maintenance{display:inline-block;position:absolute;right:0;width:0;margin:8px;height:0}
-.notification{position:absolute;z-index:5;top:-0.2em;left:-0.8em;height:1.1em;border-radius:50%;padding:0 .35em 0 .35em;background-color:#000;border:2px solid white;color:white;font-family:VodafoneBold;font-size:.7em;}
-.alerts{overflow-x:hidden;overflow-y:scroll;height:100%;background-color:#f8d7da;padding:0 7px 0 7px}
-.alert{display:list-item;list-style-type:disc;list-style-position:inside;font-size:.7em;width:100%;text-align:center;margin:2px}
-.alert:empty:after{content:"+";float:right;background-color:#c90f0f;color:white;font-size:.9em;font-family:VodafoneBold;padding:0 0.4em 0 0.4em;border-radius:50%;border:2px solid;vertical-align:middle}
+.maintenance{display:inline-block;position:absolute;right:12px;width:25%;margin:8px;height:3em}
+.notification{position:absolute;z-index:5;top:-0.2em;left:-0.8em;height:1.1em;border-radius:50%;padding:0 .35em 0 .35em;background-color:#000;border:2px solid white;color:white;font-family:Arial;font-size:.7em;}
+.alerts{overflow-x:hidden;overflow-y:scroll;width:100%;height:100%;background-color:#f8d7da;padding:0 7px 0 7px}
+.alert{display:list-item;list-style-type:disc;list-style-position:inside;font-size:.7em;width:100%;text-align:left;margin:2px}
+.alert:empty:after{content:"+";background-color:#c90f0f;color:white;font-size:.9em;font-family:Arial;padding:0 0.4em 0 0.4em;border-radius:50%;border:2px solid;vertical-align:middle}
 
-main{overflow-x:hidden;background:#ececec;}
-.menu{height:1.1em;width:100%;display:flex;z-index:20}
-.menu>.menu{position:absolute;transform:translate(0px,100%);z-index:11}
-.menu>.button{background-color:rgb(202, 0, 0)}
-.navigation>.button{background-color:#e10000;}
-.menu.drop-down>.button{background-color:rgb(202, 0, 0);#ececec}
-.navigation>label>.drop-down>.button{background-color:#e10000;}
-.menu.drop-down{position:relative;width:inherit}
-.menu.drop-down a{display:block;margin:-1px}
+main{overflow-x:hidden;}
+.menu{position:absolute;width:100%;display:flex;margin-top:4em}
+.menu>.menu{position:absolute;transform:translate(0px,100%);margin-top:0;z-index:11}
+.menu>label{background-color:rgb(202, 0, 0)}
+.navigation>label{background-color:#e10000;}
+.menu.drop-down>a:not(.dori){background-color:rgb(202, 0, 0);white-space:normal}
+.navigation>label>.drop-down>a:not(.dori){background-color:#e10000;}
+.menu.drop-down{position:absolute;max-height:100px;width:100%;margin-top:0}
+.menu.drop-down a{display:table-cell;margin-bottom:-2px}
 .menu.drop-down a:hover{background-color:#ab0101}
-.menu.favorites{transform:translate(0px,100%);z-index:0}
-.menu.favorites>.button{background-color:rgb(171, 1, 1)}
-.menu.portals{position:absolute;z-index:91}
-.menu.portals .button{background-color:#272727;color:#ff0000}
+.menu.favorites{z-index:0}
+.menu.favorites>a:not(.dori){background-color:rgb(171, 1, 1)}
+.menu.portals{position:absolute;}
+.menu.portals a{background-color:#272727;color:#ff0000}
 
 input+label+.menu{display:none}
 input:checked+.button+.menu{display:flex}
 input:checked+.button{box-shadow:inset 0 1px 3px rgba(0,0,0,0.12), inset 0 1px 2px rgba(0,0,0,0.24);background-color:rgb(202, 0, 0)}
 
-.button{position:relative;display:inline-block;background-color:rgb(202, 0, 0);color:#fff;width:100%;height:1.5em;line-height:1.5em;text-align:center;font-family:"VodafoneBold";font-size:.8em;white-space:nowrap;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;}
+.button{position:relative;display:inline-block;background-color:rgb(202, 0, 0);color:#fff;width:100%;height:1.5em;line-height:1.5em;text-align:center;white-space:nowrap;font-family:"Arial";font-size:.8em;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;}
 .button{text-shadow:0 0 5px #ff0000;}
 .button img{height:100%;float:left}
 .button>.drop-down{display:none}
 .button>.drop-down:hover{display:block}
 .button:hover>.drop-down{display:block}
 
-#module{margin:3em 3em 3em 3em;height:100vh;overflow:hidden}
-#module body div{background-color:white;margin:5px;height:100%;}
+#module{height:100vh;overflow:hidden;}
+#module>*{background-color:white;width:80%;max-height:75vh;margin-left:10%;margin-top:8em;padding:15px;overflow:scroll;}
+#module input{display:initial}
 
-.footer{position:relative;overflow:hidden;width:100%;height:2.5em;background-color:white;z-index:200;}
+.footer{position:fixed;bottom:0;overflow:hidden;width:100%;height:3em;background-color:white;z-index:5;}
 .footer div{width:100%;text-align:center;line-height:2em}
 .footer div a{margin:0 1em 0 1em;font-size:.8em;}
 
 .material{overflow:hidden;box-shadow:0 0 10px rgba(0,0,0,0.25);transition:all 0.1s}
-.material:hover{box-shadow:0 0 10px rgba(0,0,0,.7);}
+.material:hover{box-shadow:0 0 10px rgba(0,0,0,.7);z-index:calc(inherit+5);}
 .material:active{box-shadow:0 0 3px rgba(0,0,0,0.1);transition:all 0.1s}
-.ripple{overflow:hidden}
-.ripple:before{content:"";position:absolute;left:calc(var(--mouse-x,-600)*1px);top:calc(var(--mouse-y,-600)*1px);width:600px;height:600px;background:transparent;border-radius:50%;transform:translate(-50%,-50%) scale(1);visibility:hidden;transition:all calc(var(--interfere,1)*1s);}
+.ripple:before{content:"";position:absolute;left:calc(var(--mouse-x,-600)*1px);top:calc(var(--mouse-y,-600)*1px);width:600px;height:600px;background:transparent;border-radius:50%;transform:translate(-50%,-50%) scale(1);visibility:hidden;transition:all calc(var(--mouse-x,0)/var(--mouse-x,1)*1s);}
 .ripple:active:before{background:rgba(255, 4, 4, 0.33);transform:translate(-50%,-50%) scale(0);visibility:visible;transition:all 0s;}
 .negative{box-shadow:inset 0 0 5px rgba(0,0,0,0.25)}
+
+.dori{box-shadow:none;border:1px solid lightgrey;}
+a.dori,label.dori{background-color:transparent;border:none;border-bottom:1px solid lightgrey;color:grey;text-shadow:none}
+input:checked+.button.dori{overflow:visible;background-color:transparent;box-shadow:none;border-bottom:1px solid #E60000;color:grey;text-shadow:none;}
+input:checked+.button.dori:after{content:'';width:0;height:0;position:absolute;left:50%;bottom:-6px;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid #E60000;}
